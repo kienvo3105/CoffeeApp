@@ -4,6 +4,8 @@ import Home from '../screens/Home';
 import Oder from '../screens/Oder';
 import { colors } from '../constants/color';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
+
 const Tab = createBottomTabNavigator();
 
 const BottomMenu = () => {
@@ -25,7 +27,7 @@ const BottomMenu = () => {
                 options={{
                     tabBarLabel: 'Đặt hàng',
                     tabBarIcon: ({ color, size }) => (
-                        <MaterialIcons name="emoji-food-beverage" color={color} size={size} />
+                        <MaterialIcons name="restaurant" color={color} size={size} />
                     ),
                 }} />
         </Tab.Navigator>
