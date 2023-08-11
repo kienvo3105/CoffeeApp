@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 14,
-        colors: colors.textPrimary
+        color: colors.textPrimary
     },
     image: {
         maxHeight: 50
