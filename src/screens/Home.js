@@ -6,6 +6,7 @@ import ItemCategory from '../components/Common/ItemCategory'
 import Promotion from '../components/Home/Promotion'
 import AdBanner from '../components/Home/AdBanner'
 import BestProduct from '../components/Home/BestProduct'
+import Cart from '../components/Common/Cart'
 import { colors } from '../constants/color'
 
 const itemCategory = [
@@ -115,8 +116,9 @@ const Home = () => {
                     horizontal
                     showsHorizontalScrollIndicator={false}
                 />
-            </ScrollView>
 
+            </ScrollView>
+            <Cart />
         </View>
     )
 }
@@ -147,7 +149,7 @@ const styles = StyleSheet.create({
     },
     listProduct: {
         // marginTop: 10,
-        marginBottom: 25,
+        marginBottom: 80,
         flexGrow: 0
-    }
+    },
 })
