@@ -2,13 +2,12 @@ import { StyleSheet, ScrollView, View, FlatList, Text } from 'react-native'
 import React from 'react'
 import TopBar from '../components/Common/TopBar'
 import RatingCard from '../components/Home/RatingCard'
-import ItemCategory from '../components/Common/ItemCategory'
+import ItemCategory from '../components/Home/ItemCategory'
 import Promotion from '../components/Home/Promotion'
 import AdBanner from '../components/Home/AdBanner'
 import BestProduct from '../components/Home/BestProduct'
 import Cart from '../components/Common/Cart'
 
-import { Header } from "react-native-elements"
 
 import { colors } from '../constants/color'
 
