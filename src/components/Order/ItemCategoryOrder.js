@@ -3,12 +3,12 @@ import React from 'react'
 
 import { colors } from "../../constants/color"
 
-const ItemCategoryOrder = ({ url, name, handlePressItem, id, selected }) => {
+const ItemCategoryOrder = ({ url, name, id, selected, handlePressItem }) => {
     return (
         <Pressable
             android_disableSound
             style={[styles.container, { borderBottomWidth: id === selected ? 2 : 0, }]}
-            onPress={() => handlePressItem(id)}>
+            onPress={() => handlePressItem(id, name)}>
             <Image source={url} resizeMode='contain' style={styles.image} />
             <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                 <Text
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     },
     text: {
         paddingTop: 5,
-        fontSize: 12,
+        fontSize: 13,
         maxWidth: 80,
         textAlign: 'center',
     },

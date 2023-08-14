@@ -1,4 +1,4 @@
-import { StyleSheet, Text, Image, Pressable } from 'react-native'
+import { StyleSheet, Text, Image, Pressable, View } from 'react-native'
 import React from 'react'
 
 import { colors } from "../../constants/color"
@@ -10,7 +10,10 @@ const ItemCategory = ({ url, name, handlePressItem }) => {
             style={styles.container}
             onPress={handlePressItem}>
             <Image source={url} resizeMode='contain' style={styles.image} />
-            <Text style={styles.text}>{name}</Text>
+            {/* <View > */}
+            <Text style={styles.text} numberOfLines={2}
+                ellipsizeMode='tail'>{name}</Text>
+            {/* </View> */}
         </Pressable>
     )
 }
@@ -23,10 +26,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     text: {
+        width: 80,
         fontSize: 14,
-        color: colors.textPrimary
+        color: colors.textPrimary,
+        textAlign: 'center'
     },
     image: {
-        maxHeight: 50
+        maxHeight: 50,
     }
 })

@@ -2,9 +2,10 @@ import { StyleSheet, Text, View, Pressable, FlatList } from 'react-native';
 import React, { useState } from 'react';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import Feather from 'react-native-vector-icons/Feather'
 import { colors } from '../constants/color';
 import ItemCategoryOrder from '../components/Order/ItemCategoryOrder';
+import ItemProduct from '../components/Order/ItemProduct';
 
 const itemCategory = [
     {
@@ -16,10 +17,10 @@ const itemCategory = [
         id: 2, name: 'CÀ PHÊ PHA MÁY', img: require("../assets/image/category/2.png")
     },
     {
-        id: 3, name: "Trà", img: require("../assets/image/category/3.png")
+        id: 3, name: "TRÀ", img: require("../assets/image/category/3.png")
     },
     {
-        id: 4, name: "Đá xây", img: require("../assets/image/category/4.png")
+        id: 4, name: "ĐÁ XÂY", img: require("../assets/image/category/4.png")
     },
     {
         id: 5,
@@ -37,30 +38,86 @@ const itemCategory = [
     }
 ]
 
+const itemProduct = {
+    1: [{
+        id: 3,
+        title: 'Phin Sữa Đá',
+        describe: 'Hương vị cà phê Việt Nam đích thực! Từng hạt cà phê hảo hạng được chọn bằng tay, phối trộn độc đáo giữa hạt Robusta từ cao nguyên Việt Nam, thêm Arabica thơm lừng. Cà phê được pha từ Phin truyền thống, hoà cùng sữa đặc sánh và thêm vào chút đá tạo nên ly Phin Sữa Đá – Đậm Đà Chất Phin.',
+        price: "$" + ((Math.floor(Math.random() * ((+5) - (+1) + 1)) + (+1)).toFixed()) + " ",
+        image: require('../assets/image/product/3.png'),
+        category_id: 1
+    }],
+    2: [{
+        id: 1,
+        title: 'Trà Sen Vàng',
+        describe: 'Một sự kết hợp thú vị giữa trà đen, những quả vải thơm ngon và thạch giòn khó cưỡng, mang đến thức uống tuyệt hảo!',
+        price: "$" + ((Math.floor(Math.random() * ((+5) - (+1) + 1)) + (+ 1)).toFixed()),
+        image: require('../assets/image/product/1.png'),
+        category_id: 2
+    }, {
+        id: 2,
+        title: 'FREEZE Trà Xanh',
+        describe: 'Thức uống rất được ưa chuộng! Trà xanh thượng hạng từ cao nguyên Việt Nam, kết hợp cùng đá xay, thạch trà dai dai, thơm ngon và một lớp kem dày phủ lên trên vô cùng hấp dẫn. Freeze Trà Xanh thơm ngon, mát lạnh, chinh phục bất cứ ai!    ',
+        price: "$" + ((Math.floor(Math.random() * ((+5) - (+1) + 1)) + (+1)).toFixed()) + " ",
+        image: require('../assets/image/product/2.png'),
+        category_id: 2
+    },]
+}
 
 const Oder = () => {
-    const [selected, setSelected] = useState(1);
-
+    const [selected, setSelected] = useState({ id: itemCategory[0].id, name: itemCategory[0].name });
+    const [listProduct, setListProduct] = useState(itemProduct[1])
+    const [typeArrange, setTypeArrange] = useState('list')
     const renderItemCategory = ({ item }) => {
-        return (<ItemCategoryOrder url={item.img} name={item.name} handlePressItem={(itemId) => setSelected(itemId)} id={item.id} selected={selected} />)
+        return (<ItemCategoryOrder url={item.img} name={item.name} id={item.id} selected={selected.id}
+            handlePressItem={(id, name) => {
+                setSelected({ id, name })
+                setListProduct(itemProduct[id])
+            }} />)
     };
 
+    const renderItemProduct = ({ item }) => {
+        return (<ItemProduct item={item} handlePressItem={(itemName, price) => console.log(itemName, price)} />)
+    }
+    const HorizontalLineSeparator = () => {
+        return <View style={{ height: 1, backgroundColor: '#dedede', marginHorizontal: 20 }} />;
+    };
     return (
-        <Pressable style={styles.container}>
+        <View style={styles.container}>
+            {/* search bar */}
             <View style={styles.searchBar}>
                 <Text style={styles.titleSearch}>Tìm kiếm tên món ăn</Text>
                 <Ionicons name='search' size={20} color={'#dedede'} />
             </View>
 
-            <FlatList
-                style={styles.menu}
-                data={itemCategory}
-                renderItem={renderItemCategory}
-                keyExtractor={item => item.id}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-            />
-        </Pressable>
+            {/* menu */}
+            <View>
+                <FlatList
+                    data={itemCategory}
+                    renderItem={renderItemCategory}
+                    keyExtractor={item => item.id}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                />
+            </View>
+
+            {/* product list */}
+            <View style={styles.titleBar}>
+                <Text style={styles.textTitle}>{selected.name}</Text>
+                <View style={styles.iconArrange}>
+                    <Feather name='menu' size={30} color={typeArrange === 'list' ? colors.primary : colors.gray} onPress={() => setTypeArrange('list')} />
+                    <Ionicons name='grid-sharp' size={25} color={typeArrange !== 'list' ? colors.primary : colors.gray} onPress={() => setTypeArrange('grid')} />
+                </View>
+            </View>
+            <View>
+                <FlatList
+                    data={listProduct}
+                    renderItem={renderItemProduct}
+                    keyExtractor={item => item.id}
+                    ItemSeparatorComponent={HorizontalLineSeparator}
+                />
+            </View>
+        </View>
     )
 };
 
@@ -87,5 +144,22 @@ const styles = StyleSheet.create({
     titleSearch: {
         color: '#dedede',
         fontSize: 12
+    },
+    titleBar: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: 15,
+    },
+    textTitle: {
+        fontSize: 17,
+        fontWeight: 'bold',
+        color: colors.textPrimary,
+    },
+    iconArrange: {
+        width: 67,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
     }
 });
