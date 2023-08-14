@@ -7,6 +7,9 @@ import Promotion from '../components/Home/Promotion'
 import AdBanner from '../components/Home/AdBanner'
 import BestProduct from '../components/Home/BestProduct'
 import Cart from '../components/Common/Cart'
+
+import { Header } from "react-native-elements"
+
 import { colors } from '../constants/color'
 
 const itemCategory = [

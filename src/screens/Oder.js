@@ -4,7 +4,7 @@ import React from 'react'
 const Oder = () => {
     return (
         <View>
-            <Text>Oder</Text>
+            <Text>hkjhkjhk</Text>
         </View>
     )
 }
