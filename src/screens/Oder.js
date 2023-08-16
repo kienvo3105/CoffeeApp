@@ -1,5 +1,6 @@
-import { StyleSheet, Text, View, Pressable, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Pressable, FlatList, TouchableOpacity, Modal, TouchableWithoutFeedback } from 'react-native';
 import React, { useState } from 'react';
+
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather'
@@ -8,6 +9,7 @@ import ItemCategoryOrder from '../components/Order/ItemCategoryOrder';
 import ItemProduct from '../components/Order/ItemProduct';
 import ItemProductGrid from '../components/Order/ItemProductGrid';
 import Cart from '../components/Common/Cart';
+import LocationModal from '../components/Order/LocationModal';
 
 const itemCategory = [
     {
@@ -76,8 +78,10 @@ const itemProduct = {
 
 const Oder = () => {
     const [selected, setSelected] = useState({ id: itemCategory[0].id, name: itemCategory[0].name });
-    const [listProduct, setListProduct] = useState(itemProduct[1])
-    const [typeArrange, setTypeArrange] = useState('list')
+    const [listProduct, setListProduct] = useState(itemProduct[1]);
+    const [typeArrange, setTypeArrange] = useState('list');
+    const [showSelectLocation, setShowSelectLocation] = useState(false);
+    const [selectedMethod, setSelectedMethod] = useState("Tại bàn")
     const renderItemCategory = ({ item }) => {
         return (<ItemCategoryOrder url={item.img} name={item.name} id={item.id} selected={selected.id}
             handlePressItem={(id, name) => {
@@ -146,10 +150,10 @@ const Oder = () => {
                 />}
             {/* bar cart */}
             <View style={styles.barCart}>
-                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', width: '75%' }}>
+                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', width: '75%' }} onPress={() => setShowSelectLocation(true)}>
                     <Ionicons name='location' size={20} color={colors.white} style={{ paddingRight: 5 }} />
                     <View >
-                        <Text style={{ fontSize: 12, color: colors.white }}>Mang về</Text>
+                        <Text style={{ fontSize: 12, color: colors.white }}>{selectedMethod}</Text>
                         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                             <Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.white, paddingRight: 5 }}>Citi Ground</Text>
                             <Ionicons name='chevron-down-outline' size={14} color={colors.white} />
@@ -158,6 +162,12 @@ const Oder = () => {
                 </TouchableOpacity>
                 <Cart />
             </View>
+            {/* Modal location */}
+            <LocationModal
+                visibleModal={showSelectLocation}
+                handleCloseModal={(visible) => setShowSelectLocation(visible)}
+                handelSetMethod={(method) => { setSelectedMethod(method); setShowSelectLocation(false) }}
+                selectedMethod={selectedMethod} />
         </View>
     )
 };
@@ -210,4 +220,5 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
 
     },
+
 });
