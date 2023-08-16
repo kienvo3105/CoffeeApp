@@ -120,7 +120,10 @@ const Home = () => {
                 />
 
             </ScrollView>
-            <Cart />
+            <View style={styles.cart}>
+
+                <Cart />
+            </View>
         </View>
     )
 }
@@ -150,8 +153,12 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     listProduct: {
-        // marginTop: 10,
         marginBottom: 80,
         flexGrow: 0
     },
+    cart: {
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
+    }
 })

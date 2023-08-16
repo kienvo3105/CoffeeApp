@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Pressable, FlatList, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -6,6 +6,8 @@ import Feather from 'react-native-vector-icons/Feather'
 import { colors } from '../constants/color';
 import ItemCategoryOrder from '../components/Order/ItemCategoryOrder';
 import ItemProduct from '../components/Order/ItemProduct';
+import ItemProductGrid from '../components/Order/ItemProductGrid';
+import Cart from '../components/Common/Cart';
 
 const itemCategory = [
     {
@@ -61,7 +63,15 @@ const itemProduct = {
         price: "$" + ((Math.floor(Math.random() * ((+5) - (+1) + 1)) + (+1)).toFixed()) + " ",
         image: require('../assets/image/product/2.png'),
         category_id: 2
-    },]
+    },
+    {
+        id: 4,
+        title: 'Phin Sữa Đá',
+        describe: 'Hương vị cà phê Việt Nam đích thực! Từng hạt cà phê hảo hạng được chọn bằng tay, phối trộn độc đáo giữa hạt Robusta từ cao nguyên Việt Nam, thêm Arabica thơm lừng. Cà phê được pha từ Phin truyền thống, hoà cùng sữa đặc sánh và thêm vào chút đá tạo nên ly Phin Sữa Đá – Đậm Đà Chất Phin.',
+        price: "$" + ((Math.floor(Math.random() * ((+5) - (+1) + 1)) + (+1)).toFixed()) + " ",
+        image: require('../assets/image/product/3.png'),
+        category_id: 2
+    }]
 }
 
 const Oder = () => {
@@ -79,6 +89,11 @@ const Oder = () => {
     const renderItemProduct = ({ item }) => {
         return (<ItemProduct item={item} handlePressItem={(itemName, price) => console.log(itemName, price)} />)
     }
+
+    const renderItemProductGrid = ({ item }) => {
+        return (<ItemProductGrid item={item} handlePressItem={(itemName, price) => console.log(itemName, price)} />)
+    }
+
     const HorizontalLineSeparator = () => {
         return <View style={{ height: 1, backgroundColor: '#dedede', marginHorizontal: 20 }} />;
     };
@@ -95,7 +110,7 @@ const Oder = () => {
                 <FlatList
                     data={itemCategory}
                     renderItem={renderItemCategory}
-                    keyExtractor={item => item.id}
+                    keyExtractor={item => item.id.toString()}
                     horizontal
                     showsHorizontalScrollIndicator={false}
                 />
@@ -110,12 +125,38 @@ const Oder = () => {
                 </View>
             </View>
             <View>
+
+            </View>
+            {typeArrange === 'list' ?
                 <FlatList
                     data={listProduct}
                     renderItem={renderItemProduct}
-                    keyExtractor={item => item.id}
+                    keyExtractor={item => item.id.toString()}
                     ItemSeparatorComponent={HorizontalLineSeparator}
                 />
+                : <FlatList
+                    data={listProduct}
+                    key={`grid-${listProduct.length}`}
+                    renderItem={renderItemProductGrid}
+                    keyExtractor={item => item.id.toString()}
+                    horizontal={false}
+                    numColumns={2}
+                    columnWrapperStyle={{ justifyContent: 'space-between', marginBottom: '5%' }}
+                    contentContainerStyle={{ marginHorizontal: ('5%') }}
+                />}
+            {/* bar cart */}
+            <View style={styles.barCart}>
+                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', width: '75%' }}>
+                    <Ionicons name='location' size={20} color={colors.white} style={{ paddingRight: 5 }} />
+                    <View >
+                        <Text style={{ fontSize: 12, color: colors.white }}>Mang về</Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.white, paddingRight: 5 }}>Citi Ground</Text>
+                            <Ionicons name='chevron-down-outline' size={14} color={colors.white} />
+                        </View>
+                    </View>
+                </TouchableOpacity>
+                <Cart />
             </View>
         </View>
     )
@@ -161,5 +202,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-    }
+    },
+    barCart: {
+        backgroundColor: colors.primary,
+        paddingHorizontal: 5,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+
+    },
 });

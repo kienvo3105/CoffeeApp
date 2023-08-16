@@ -6,7 +6,7 @@ const Cart = () => {
     return (
         <View style={styles.container}>
             <Ionicons name='bag' size={30} color={colors.white} style={{ padding: 5 }} />
-            <Text style={styles.numberProduct}>1</Text>
+            <Text style={styles.numberProduct}>21</Text>
         </View>
     )
 }
@@ -15,10 +15,6 @@ export default Cart
 
 const styles = StyleSheet.create({
     container: {
-        position: 'absolute',
-        bottom: 20,
-        right: 20,
-
         backgroundColor: colors.primary,
         borderRadius: 100,
         padding: 5,
@@ -28,9 +24,8 @@ const styles = StyleSheet.create({
     },
     numberProduct: {
         position: 'absolute',
-        left: 21,//2 products 18 or 1 product 21
-        top: 20,
-
+        paddingTop: 5,
+        fontSize: 12,
         fontWeight: 'bold',
         color: colors.primary
     }
