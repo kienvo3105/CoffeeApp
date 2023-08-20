@@ -2,10 +2,12 @@ import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../screens/Home';
 import Oder from '../screens/Oder';
+import History from '../screens/History/History';
+
 import { colors } from '../constants/color';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
-
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import TabHistory from './TabHistory';
 const Tab = createBottomTabNavigator();
 
 const BottomMenu = () => {
@@ -27,7 +29,16 @@ const BottomMenu = () => {
                 options={{
                     tabBarLabel: 'Đặt hàng',
                     tabBarIcon: ({ color, size }) => (
-                        <MaterialIcons name="restaurant" color={color} size={size} />
+                        <MaterialCommunityIcons name="silverware-variant" color={color} size={size} />
+                    ),
+                }} />
+            <Tab.Screen
+                name="History"
+                component={History}
+                options={{
+                    tabBarLabel: 'Hoạt động',
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialIcons name="history" color={color} size={size} />
                     ),
                 }} />
         </Tab.Navigator>
