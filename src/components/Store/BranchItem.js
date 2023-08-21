@@ -36,8 +36,8 @@ const styles = StyleSheet.create({
         borderRadius: 8
     },
     image: {
-        height: 110,
-        width: 110,
+        height: 90,
+        width: 90,
         marginRight: 15
     },
     content: {
@@ -45,19 +45,19 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     nameBranch: {
-        fontSize: 18,
+        fontSize: 15,
         fontWeight: 'bold',
         color: colors.textPrimary
     },
     text: {
-        fontSize: 15,
-        marginTop: 5
+        fontSize: 13,
+        marginTop: 3
     },
     around: {
         marginRight: 10,
         backgroundColor: colors.green,
-        paddingVertical: 2,
-        paddingHorizontal: 7,
+        paddingVertical: 1,
+        paddingHorizontal: 5,
         borderRadius: 20,
         color: colors.white,
         fontWeight: 'bold'

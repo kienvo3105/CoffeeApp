@@ -4,6 +4,7 @@ import Home from '../screens/Home';
 import Oder from '../screens/Oder';
 import History from '../screens/History/History';
 import Store from '../screens/Store';
+import Setting from '../screens/Setting';
 
 import { colors } from '../constants/color';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -49,6 +50,15 @@ const BottomMenu = () => {
                     tabBarLabel: 'Cửa hàng',
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons name="storefront-outline" color={color} size={size} />
+                    ),
+                }} />
+            <Tab.Screen
+                name="Setting"
+                component={Setting}
+                options={{
+                    tabBarLabel: 'Khác',
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialIcons name="menu" color={color} size={size} />
                     ),
                 }} />
         </Tab.Navigator>

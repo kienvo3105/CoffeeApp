@@ -89,7 +89,7 @@ const Store = () => {
                     data={branchList}
                     keyExtractor={item => item.id.toString()}
                     renderItem={({ item }) => <BranchItem item={item} />}
-                    ItemSeparatorComponent={() => <View style={{ marginBottom: 10 }} />}
+                    ItemSeparatorComponent={() => <View style={{ marginBottom: 5 }} />}
                 /> :
                 <Map branchList={branchList} />
             }
