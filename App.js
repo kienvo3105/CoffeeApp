@@ -2,11 +2,11 @@ import { StyleSheet, StatusBar } from 'react-native'
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-
+// import { enableLatestRenderer } from 'react-native-maps';
 import BottomMenu from './src/navigations/BottomMenu';
 import { colors } from './src/constants/color';
 
-
+// enableLatestRenderer();
 
 const Stack = createStackNavigator();
 
