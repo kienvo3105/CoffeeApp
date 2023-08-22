@@ -11,63 +11,10 @@ import Cart from '../components/Common/Cart'
 
 import { colors } from '../constants/color'
 
-const itemCategory = [
-    {
-        id: 1,
-        name: 'Cà phê tt',
-        img: require("../assets/image/category/1.png")
-    },
-    {
-        id: 2, name: 'Cà phê máy', img: require("../assets/image/category/2.png")
-    },
-    {
-        id: 3, name: "Trà", img: require("../assets/image/category/3.png")
-    },
-    {
-        id: 4, name: "Đá xây", img: require("../assets/image/category/4.png")
-    },
-    {
-        id: 5,
-        name: 'Cà phê tt',
-        img: require("../assets/image/category/1.png")
-    },
-    {
-        id: 6, name: 'Cà phê máy', img: require("../assets/image/category/2.png")
-    },
-    {
-        id: 7, name: "Trà", img: require("../assets/image/category/3.png")
-    },
-    {
-        id: 8, name: "Đá xây", img: require("../assets/image/category/4.png")
-    }
-]
-
-const itemPromotion = [
-    { id: 1, title: "GIAM 10k", date: "11/8 - 30-8", img: require("../assets/image/promotion/1.jpg") },
-    { id: 2, title: "MUA 1 TANG 1", date: "1/8 - 20-8", img: require("../assets/image/promotion/1.jpg") },
-    { id: 3, title: "TANG 10k", date: "5/8 - 15-8", img: require("../assets/image/promotion/1.jpg") },
-    { id: 4, title: "GIAM 10k", date: "11/8 - 30-8", img: require("../assets/image/promotion/1.jpg") },
-    { id: 5, title: "GIAM 10k", date: "11/8 - 30-8", img: require("../assets/image/promotion/1.jpg") },
-]
-
-const itemBestSeller = [
-    { id: 1, title: "Freeze Trà Xanh", price: 55000, img: require("../assets/image/category/4.png") },
-    {
-        id: 4,
-        title: 'Cà phê tt',
-        price: 30000,
-        img: require("../assets/image/category/1.png")
-    },
-    {
-        id: 2, title: 'Cà phê máy', price: 32000, img: require("../assets/image/category/2.png")
-    },
-    {
-        id: 3, title: "Trà", price: 45000, img: require("../assets/image/category/3.png")
-    },
-]
+import { itemBestSeller, itemCategory, itemPromotion } from '../assets/data/data'
 
 const renderItemCategory = ({ item }) => {
-    return (<ItemCategory url={item.img} name={item.name} handlePressItem={() => console.log("press category")} />)
+    return (<ItemCategory url={item.img} name={item.name} category={item.id} />)
 }
 
 const renderItemPromotion = ({ item }) => {
@@ -137,7 +84,7 @@ const styles = StyleSheet.create({
     menu: {
         backgroundColor: colors.white,
         paddingTop: 20,
-        height: 100,
+        height: 110,
         flexGrow: 0
     },
     listPromote: {

@@ -3,8 +3,13 @@ import React from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 // import { enableLatestRenderer } from 'react-native-maps';
+
 import BottomMenu from './src/navigations/BottomMenu';
+import ListProductScreen from './src/screens/ListProductScreen';
+
+
 import { colors } from './src/constants/color';
+
 
 // enableLatestRenderer();
 
@@ -20,6 +25,7 @@ const App = () => {
                     screenOptions={{ headerShown: false }}
                 >
                     <Stack.Screen name="BottomMenu" component={BottomMenu} />
+                    <Stack.Screen name='ListProductScreen' component={ListProductScreen} />
                 </Stack.Navigator>
             </NavigationContainer>
         </>
