@@ -34,7 +34,7 @@ export const itemProduct = {
         id: 3,
         title: 'Phin Sữa Đá',
         describe: 'Hương vị cà phê Việt Nam đích thực! Từng hạt cà phê hảo hạng được chọn bằng tay, phối trộn độc đáo giữa hạt Robusta từ cao nguyên Việt Nam, thêm Arabica thơm lừng. Cà phê được pha từ Phin truyền thống, hoà cùng sữa đặc sánh và thêm vào chút đá tạo nên ly Phin Sữa Đá – Đậm Đà Chất Phin.',
-        price: "$" + ((Math.floor(Math.random() * ((+5) - (+1) + 1)) + (+1)).toFixed()) + " ",
+        price: 35000,
         image: require('../image/product/3.png'),
         category_id: 1
     }],
@@ -42,14 +42,14 @@ export const itemProduct = {
         id: 1,
         title: 'Trà Sen Vàng',
         describe: 'Một sự kết hợp thú vị giữa trà đen, những quả vải thơm ngon và thạch giòn khó cưỡng, mang đến thức uống tuyệt hảo!',
-        price: "$" + ((Math.floor(Math.random() * ((+5) - (+1) + 1)) + (+ 1)).toFixed()),
+        price: 40000,
         image: require('../image/product/1.png'),
         category_id: 2
     }, {
         id: 2,
         title: 'FREEZE Trà Xanh',
         describe: 'Thức uống rất được ưa chuộng! Trà xanh thượng hạng từ cao nguyên Việt Nam, kết hợp cùng đá xay, thạch trà dai dai, thơm ngon và một lớp kem dày phủ lên trên vô cùng hấp dẫn. Freeze Trà Xanh thơm ngon, mát lạnh, chinh phục bất cứ ai!    ',
-        price: "$" + ((Math.floor(Math.random() * ((+5) - (+1) + 1)) + (+1)).toFixed()) + " ",
+        price: 56000,
         image: require('../image/product/2.png'),
         category_id: 2
     },
@@ -57,7 +57,7 @@ export const itemProduct = {
         id: 4,
         title: 'Phin Sữa Đá',
         describe: 'Hương vị cà phê Việt Nam đích thực! Từng hạt cà phê hảo hạng được chọn bằng tay, phối trộn độc đáo giữa hạt Robusta từ cao nguyên Việt Nam, thêm Arabica thơm lừng. Cà phê được pha từ Phin truyền thống, hoà cùng sữa đặc sánh và thêm vào chút đá tạo nên ly Phin Sữa Đá – Đậm Đà Chất Phin.',
-        price: "$" + ((Math.floor(Math.random() * ((+5) - (+1) + 1)) + (+1)).toFixed()) + " ",
+        price: 55000,
         image: require('../image/product/3.png'),
         category_id: 2
     }]

@@ -16,7 +16,7 @@ const ProductList = ({ selected, listProduct, check }) => {
     const [selectedMethod, setSelectedMethod] = useState("Tại bàn")
 
     const renderItemProduct = ({ item }) => {
-        return (<ItemProduct item={item} handlePressItem={(itemName, price) => console.log(itemName, price)} />)
+        return (<ItemProduct item={item} />)
     }
 
     const renderItemProductGrid = ({ item }) => {
