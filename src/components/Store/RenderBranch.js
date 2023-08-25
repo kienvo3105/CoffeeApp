@@ -1,77 +1,26 @@
 import { StyleSheet, Text, View, Pressable, FlatList } from 'react-native'
 import React, { useState } from 'react'
-import TopBar from '../components/Common/TopBar'
-import { SearchBar } from 'react-native-elements'
-import { colors } from '../constants/color'
 
-import BranchItem from '../components/Store/BranchItem'
-import Map from '../components/Store/Map'
-
-
+import { SearchBar } from '@rneui/themed';
+import BranchItem from './BranchItem';
+import Map from './Map';
+import { colors } from '../../constants/color'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import { branchList } from '../../assets/data/data';
 
-const branchList = [{
-    id: 1,
-    name: 'Sala 2',
-    apartmentNumber: '125',
-    street: 'Nguyễn Cơ Thạch',
-    ward: 'P.An Loi Dong',
-    district: 'Q.2',
-    phoneNumber: '02871076465',
-    openingTime: '7:00 - 23:00',
-    image: require("../assets/image/branch/citiGround.jpg"),
-    latLng: {
-        latitude: 10.770422,
-        longitude: 106.7190839,
-    }
-},
-{
-    id: 2,
-    name: 'AQ',
-    apartmentNumber: '39',
-    street: 'Đường Mạc Đĩnh Chi',
-    ward: 'P.Da Kao',
-    district: 'Q.1',
-    phoneNumber: '02871076465',
-    openingTime: '7:00 - 23:00',
-    image: require("../assets/image/branch/citiGround.jpg"),
-    latLng: {
-        latitude: 10.7853103,
-        longitude: 106.6960621,
-    }
-},
-{
-    id: 3,
-    name: 'Vincom 3/2',
-    apartmentNumber: '3C',
-    street: 'Đường 3/2',
-    ward: 'P.11',
-    district: 'Q.10',
-    phoneNumber: '02871076465',
-    openingTime: '7:00 - 22:00',
-    image: require("../assets/image/branch/citiGround.jpg"),
-    latLng: {
-        latitude: 10.7759131,
-        longitude: 106.6779457,
-    }
-}]
-
-
-const Store = () => {
+const RenderBranch = () => {
     const [search, setSearch] = useState("");
     const [viewMode, setViewMode] = useState("list");
     return (
-        <View style={styles.container}>
-            <TopBar />
+        <View style={{ flex: 1 }}>
             {/* search bar */}
             <View style={styles.viewSearchBar}>
                 <SearchBar
-                    // style={styles.searchBar}
                     containerStyle={styles.searchBar}
                     platform='android'
                     placeholder="Tìm địa chỉ"
                     placeholderTextColor={colors.gray}
-                    onChangeText={setSearch}
+                    onChangeText={(search) => setSearch(search)}
                     value={search}
                     inputStyle={{ fontSize: 16, color: colors.textPrimary }}
                 />
@@ -93,17 +42,13 @@ const Store = () => {
                 /> :
                 <Map branchList={branchList} />
             }
-
         </View>
     )
 }
 
-export default Store
+export default RenderBranch
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
     viewSearchBar: {
         flexDirection: "row",
         justifyContent: 'space-between',

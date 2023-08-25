@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from '../constants/color';
 import ItemCategoryOrder from '../components/Order/ItemCategoryOrder';
-
+import BarCart from '../components/Order/BarCart';
 
 import ProductList from '../components/Order/ProductList';
 
@@ -44,7 +44,7 @@ const Oder = () => {
 
             {/* product list */}
             <ProductList selected={selected} listProduct={listProduct} />
-
+            <BarCart />
         </View>
     )
 };

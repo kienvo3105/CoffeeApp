@@ -3,17 +3,13 @@ import React, { useState } from 'react';
 import Feather from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import Cart from '../Common/Cart';
 import ItemProduct from './ItemProduct';
 import ItemProductGrid from './ItemProductGrid';
-import LocationModal from './LocationModal';
 
 import { colors } from '../../constants/color';
 
 const ProductList = ({ selected, listProduct, check }) => {
     const [typeArrange, setTypeArrange] = useState('list');
-    const [showSelectLocation, setShowSelectLocation] = useState(false);
-    const [selectedMethod, setSelectedMethod] = useState("Tại bàn")
 
     const renderItemProduct = ({ item }) => {
         return (<ItemProduct item={item} />)
@@ -56,26 +52,7 @@ const ProductList = ({ selected, listProduct, check }) => {
                     columnWrapperStyle={{ justifyContent: 'space-between', marginBottom: '5%' }}
                     contentContainerStyle={{ marginHorizontal: ('5%') }}
                 />}
-            {/* bar cart */}
-            <View style={styles.barCart}>
-                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', width: '75%' }} onPress={() => setShowSelectLocation(true)}>
-                    <Ionicons name='location' size={20} color={colors.white} style={{ paddingRight: 5 }} />
-                    <View >
-                        <Text style={{ fontSize: 12, color: colors.white }}>{selectedMethod}</Text>
-                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.white, paddingRight: 5 }}>Citi Ground</Text>
-                            <Ionicons name='chevron-down-outline' size={14} color={colors.white} />
-                        </View>
-                    </View>
-                </TouchableOpacity>
-                <Cart />
-            </View>
-            {/* Modal location */}
-            <LocationModal
-                visibleModal={showSelectLocation}
-                handleCloseModal={(visible) => setShowSelectLocation(visible)}
-                handelSetMethod={(method) => { setSelectedMethod(method); setShowSelectLocation(false) }}
-                selectedMethod={selectedMethod} />
+
         </View>
     )
 }

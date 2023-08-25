@@ -86,3 +86,50 @@ export const itemBestSeller = [
         id: 3, title: "Trà", price: 45000, img: require("../image/category/3.png")
     },
 ]
+
+
+export const branchList = [{
+    id: 1,
+    name: 'Sala 2',
+    apartmentNumber: '125',
+    street: 'Nguyễn Cơ Thạch',
+    ward: 'P.An Loi Dong',
+    district: 'Q.2',
+    phoneNumber: '02871076465',
+    openingTime: '7:00 - 23:00',
+    image: require("../image/branch/citiGround.jpg"),
+    latLng: {
+        latitude: 10.770422,
+        longitude: 106.7190839,
+    }
+},
+{
+    id: 2,
+    name: 'AQ',
+    apartmentNumber: '39',
+    street: 'Đường Mạc Đĩnh Chi',
+    ward: 'P.Da Kao',
+    district: 'Q.1',
+    phoneNumber: '02871076465',
+    openingTime: '7:00 - 23:00',
+    image: require("../image/branch/citiGround.jpg"),
+    latLng: {
+        latitude: 10.7853103,
+        longitude: 106.6960621,
+    }
+},
+{
+    id: 3,
+    name: 'Vincom 3/2',
+    apartmentNumber: '3C',
+    street: 'Đường 3/2',
+    ward: 'P.11',
+    district: 'Q.10',
+    phoneNumber: '02871076465',
+    openingTime: '7:00 - 22:00',
+    image: require("../image/branch/citiGround.jpg"),
+    latLng: {
+        latitude: 10.7759131,
+        longitude: 106.6779457,
+    }
+}]

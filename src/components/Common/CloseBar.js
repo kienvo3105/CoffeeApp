@@ -1,31 +1,34 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 import React from 'react'
 import { colors } from '../../constants/color'
-
 import Ionicons from 'react-native-vector-icons/Ionicons'
-const BackBar = ({ title, navigation }) => {
+const CloseBar = ({ title, navigation }) => {
     return (
         <View style={styles.container}>
             <Pressable onPress={() => navigation.goBack()} >
-                <Ionicons name='chevron-back' size={20} color={colors.textPrimary} />
+                <Ionicons name='close' size={35} color={colors.textPrimary} />
             </Pressable>
 
             <Text style={{ fontSize: 20, color: colors.textPrimary, fontWeight: 'bold' }}>{title}</Text>
-            <View />
+
+            <Pressable onPress={() => navigation.goBack()} >
+                <Ionicons name='search' size={30} color={colors.gray} />
+            </Pressable>
+
         </View >
     )
 }
 
-export default BackBar
+export default CloseBar
 
 const styles = StyleSheet.create({
     container: {
-        paddingVertical: 5,
-        paddingHorizontal: 10,
+        marginTop: 10,
+        marginHorizontal: 10,
+        // flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: colors.white
+        // backgroundColor: 'red'
     },
-
 })

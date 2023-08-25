@@ -2,10 +2,13 @@ import { StyleSheet, Text, View, Image, Pressable } from 'react-native'
 import React from 'react'
 import { colors } from '../../constants/color'
 
+import { useNavigation } from '@react-navigation/native';
+
 const nameBranch = "Satramart 3/2";
 const address = "460 3 Tháng 2, P.12, Q.10";
 
 const ItemDeliveryMethod = ({ method, image, selected, handlePressSelect }) => {
+    const navigation = useNavigation()
     return (
         <Pressable
             style={[styles.container, { borderColor: selected === method ? colors.primary : 'gray' }]}
@@ -19,7 +22,11 @@ const ItemDeliveryMethod = ({ method, image, selected, handlePressSelect }) => {
                     </Text>
                 </View>
             </View>
-            <Text style={styles.change}>Sửa</Text>
+            <Pressable onPress={() => {
+                navigation.navigate("SelectStoreScreen")
+            }}>
+                <Text style={styles.change}>Sửa</Text>
+            </Pressable>
         </Pressable >
     )
 }

@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../screens/Home';
 import Oder from '../screens/Oder';
 import History from '../screens/History/History';
-import Store from '../screens/Store';
+import Store from '../screens/Store/Store';
 import Setting from '../screens/Setting';
 
 import { colors } from '../constants/color';
