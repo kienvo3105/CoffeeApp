@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Cart from '../Common/Cart';
+import Cart from '../Common/Cart/Cart';
 import LocationModal from './LocationModal';
 import { colors } from '../../constants/color';
 

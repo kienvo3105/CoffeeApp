@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Modal, TouchableWithoutFeedback } from 'react-native'
-import React, { useState } from 'react'
+import React from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from '../../constants/color';
 import ItemDeliveryMethod from './ItemDeliveryMethod';

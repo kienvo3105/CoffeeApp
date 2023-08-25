@@ -1,13 +1,23 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, Pressable } from 'react-native'
+import React, { useState } from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import { colors } from '../../constants/color'
+
+import { colors } from '../../../constants/color'
+
+import SelectTimeOrderModal from './SelectTimeOrderModal'
+
 const Cart = () => {
+    const [visibleModal, setVisibleModal] = useState(false)
     return (
-        <View style={styles.container}>
+        <Pressable style={styles.container}
+            onPress={() => setVisibleModal(true)}>
             <Ionicons name='bag' size={30} color={colors.white} style={{ padding: 5 }} />
             <Text style={styles.numberProduct}>21</Text>
-        </View>
+            {
+                visibleModal &&
+                <SelectTimeOrderModal visibleModal={visibleModal} handleCloseModal={() => setVisibleModal(false)} />
+            }
+        </Pressable>
     )
 }
 
