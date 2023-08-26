@@ -133,3 +133,39 @@ export const branchList = [{
         longitude: 106.6779457,
     }
 }]
+
+
+export const listProductCart = [
+    {
+        id: 1,
+        productName: 'bạc xỉu nóng',
+        totalPrice: 10000,
+        numberProduct: 2,
+        size: 'S',
+        noted: "Ít đường"
+    },
+    {
+        id: 2,
+        productName: 'Phin Sữa Đá',
+        totalPrice: 69000,
+        numberProduct: 1,
+        size: 'L',
+        noted: ""
+    },
+    {
+        id: 3,
+        productName: 'Trà Xanh Đậu Đỏ Nóng',
+        totalPrice: 13000,
+        numberProduct: 2,
+        size: 'L',
+        noted: "Ít đá\nthêm 1 ống hút"
+    },
+    {
+        id: 4,
+        productName: 'So co la đá xay',
+        totalPrice: 70000,
+        numberProduct: 1,
+        size: 'M',
+        noted: ""
+    },
+]

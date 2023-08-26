@@ -1,8 +1,10 @@
 import { StyleSheet, Text, View, Modal, TouchableWithoutFeedback, Image, Pressable } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { colors } from '../../../constants/color'
+import { useNavigation } from '@react-navigation/native'
 import DatePicker from 'react-native-date-picker'
 const SelectTimeOrderModal = ({ visibleModal, handleCloseModal }) => {
+    const navigation = useNavigation();
     const [date, setDate] = useState(new Date())
     const [currentDate, setCurrentDate] = useState(new Date())
 
@@ -48,7 +50,7 @@ const SelectTimeOrderModal = ({ visibleModal, handleCloseModal }) => {
                         // maximumDate={currentDate}
                         />
                         <Pressable style={styles.setTime}
-                            onPress={() => handleCloseModal(false)}>
+                            onPress={() => { handleCloseModal(false); navigation.navigate("Payment") }} >
                             <Text style={{ fontSize: 17, color: colors.white, fontWeight: 'bold' }}>ĐẶT THỜI GIAN</Text>
                         </Pressable>
                     </View>

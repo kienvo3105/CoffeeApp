@@ -8,6 +8,11 @@ import BottomMenu from './src/navigations/BottomMenu';
 import ListProductScreen from './src/screens/ListProductScreen';
 import ProductDetail from './src/screens/ProductDetail';
 import SelectStoreScreen from './src/screens/Store/SelectStoreScreen';
+import Payment from './src/screens/Payment';
+
+
+
+
 import { colors } from './src/constants/color';
 
 
@@ -28,6 +33,7 @@ const App = () => {
                     <Stack.Screen name='ListProductScreen' component={ListProductScreen} />
                     <Stack.Screen name='ProductDetail' component={ProductDetail} />
                     <Stack.Screen name='SelectStoreScreen' component={SelectStoreScreen} />
+                    <Stack.Screen name='Payment' component={Payment} />
                 </Stack.Navigator>
             </NavigationContainer>
         </>

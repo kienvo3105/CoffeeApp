@@ -6,9 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 const BackBar = ({ title, navigation }) => {
     return (
         <View style={styles.container}>
-            <Pressable onPress={() => navigation.goBack()} >
-                <Ionicons name='chevron-back' size={20} color={colors.textPrimary} />
-            </Pressable>
+            <Ionicons name='chevron-back' size={20} color={colors.textPrimary} onPress={() => navigation.goBack()} />
 
             <Text style={{ fontSize: 20, color: colors.textPrimary, fontWeight: 'bold' }}>{title}</Text>
             <View />
