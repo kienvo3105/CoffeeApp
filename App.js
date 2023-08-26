@@ -9,7 +9,7 @@ import ListProductScreen from './src/screens/ListProductScreen';
 import ProductDetail from './src/screens/ProductDetail';
 import SelectStoreScreen from './src/screens/Store/SelectStoreScreen';
 import Payment from './src/screens/Payment';
-
+import Search from './src/screens/Search';
 
 
 
@@ -34,6 +34,7 @@ const App = () => {
                     <Stack.Screen name='ProductDetail' component={ProductDetail} />
                     <Stack.Screen name='SelectStoreScreen' component={SelectStoreScreen} />
                     <Stack.Screen name='Payment' component={Payment} />
+                    <Stack.Screen name='Search' component={Search} />
                 </Stack.Navigator>
             </NavigationContainer>
         </>

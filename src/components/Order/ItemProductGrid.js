@@ -1,15 +1,19 @@
 import { StyleSheet, Text, View, Pressable, Image, Dimensions } from 'react-native'
 import React from 'react'
 import { colors } from '../../constants/color'
-const ItemProductGrid = ({ item, handlePressItem }) => {
+import { useNavigation } from '@react-navigation/native'
+import { formatCurrency } from '../../helpers/helper'
+const ItemProductGrid = ({ item }) => {
+    const navigation = useNavigation();
     return (
-        <Pressable style={styles.container}>
+        <Pressable style={styles.container}
+            onPress={() => navigation.navigate("ProductDetail", { ...item })}>
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                 <Image source={item.image} resizeMode='contain' style={styles.image} />
             </View>
             <View style={styles.viewText}>
                 <Text style={styles.text}>{item.title}</Text>
-                <Text style={styles.text}>{item.price}</Text>
+                <Text style={styles.text}>{formatCurrency(item.price)}</Text>
             </View>
         </Pressable>
     )

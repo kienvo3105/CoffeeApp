@@ -10,8 +10,9 @@ import BarCart from '../components/Order/BarCart';
 import ProductList from '../components/Order/ProductList';
 
 import { itemCategory, itemProduct } from '../assets/data/data';
-
+import { useNavigation } from '@react-navigation/native'
 const Oder = () => {
+    const navigation = useNavigation();
     const [selected, setSelected] = useState({ id: itemCategory[0].id, name: itemCategory[0].name });
     const [listProduct, setListProduct] = useState(itemProduct[1]);
 
@@ -26,10 +27,11 @@ const Oder = () => {
     return (
         <View style={styles.container}>
             {/* search bar */}
-            <View style={styles.searchBar}>
+            <TouchableOpacity style={styles.searchBar}
+                onPress={() => navigation.navigate("Search")}>
                 <Text style={styles.titleSearch}>Tìm kiếm tên món ăn</Text>
                 <Ionicons name='search' size={20} color={'#dedede'} />
-            </View>
+            </TouchableOpacity>
 
             {/* menu */}
             <View>

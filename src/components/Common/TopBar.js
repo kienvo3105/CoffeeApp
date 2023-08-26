@@ -4,14 +4,15 @@ import React from 'react'
 import { colors } from '../../constants/color'
 
 import Ionicons from 'react-native-vector-icons/Ionicons'
-
+import { useNavigation } from '@react-navigation/native'
 
 const TopBar = () => {
+    const navigation = useNavigation();
     return (
         <View style={styles.container}>
             <View style={styles.viewIcon}>
                 <Ionicons name='person-circle-outline' size={40} color={colors.primary} />
-                <Ionicons name='search' size={40} color={colors.gray} />
+                <Ionicons name='search' size={40} color={colors.gray} onPress={() => navigation.navigate("Search")} />
             </View>
         </View>
     )

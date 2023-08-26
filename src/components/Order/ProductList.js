@@ -16,7 +16,7 @@ const ProductList = ({ selected, listProduct, check }) => {
     }
 
     const renderItemProductGrid = ({ item }) => {
-        return (<ItemProductGrid item={item} handlePressItem={(itemName, price) => console.log(itemName, price)} />)
+        return (<ItemProductGrid item={item} />)
     }
 
     const HorizontalLineSeparator = () => {
