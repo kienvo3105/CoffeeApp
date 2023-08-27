@@ -1,12 +1,13 @@
 import { StyleSheet, Text, View, Pressable, SectionList, Alert } from 'react-native'
 import React from 'react'
 
-import { colors } from '../constants/color'
+import { colors } from '../../constants/color'
 import Entypo from 'react-native-vector-icons/Entypo'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import SettingOption from '../components/Setting/SettingOption'
+import SettingOption from '../../components/Setting/SettingOption'
+import ProfileBar from '../../components/Setting/ProfileBar'
 
 const options = [
     {
@@ -15,12 +16,14 @@ const options = [
         data: [{
             id: 'info',
             name: 'Hồ sơ',
-            iconName: 'person'
+            iconName: 'person',
+            navigate: "Profile"
         },
         {
             id: 'setting',
             name: 'Cài đặt',
-            iconName: "settings-sharp"
+            iconName: "settings-sharp",
+            navigate: "Profile"
         }]
     },
     {
@@ -29,7 +32,8 @@ const options = [
         data: [{
             id: "activity",
             name: "Hoạt động",
-            iconName: "stopwatch"
+            iconName: "stopwatch",
+            navigate: "Profile"
         }]
     },
     {
@@ -39,17 +43,20 @@ const options = [
             {
                 id: 'Policies',
                 name: 'Chính sách/Policies',
-                iconName: 'newspaper'
+                iconName: 'newspaper',
+                navigate: "Profile"
             },
             {
                 id: 'loyaltyProgram',
                 name: 'CT Thành viên/Loyalty Program',
-                iconName: 'newspaper'
+                iconName: 'newspaper',
+                navigate: "Profile"
             },
             {
                 id: 'versionApp',
                 name: 'Phiên bản Ứng dụng',
-                iconName: 'information-circle'
+                iconName: 'information-circle',
+                navigate: "Profile"
             }]
     },
     {
@@ -58,12 +65,14 @@ const options = [
         data: [{
             id: "faq",
             name: "Câu hỏi thường gặp",
-            iconName: "help-circle"
+            iconName: "help-circle",
+            navigate: "Profile"
         },
         {
             id: 'contact',
             name: 'Phản hồi & Hỗ trợ',
-            iconName: 'chatbubble-ellipses-sharp'
+            iconName: 'chatbubble-ellipses-sharp',
+            navigate: "Profile"
         }]
     },
     {
@@ -85,16 +94,7 @@ const Setting = () => {
                     </Pressable>
                 </View>
                 {/* info user */}
-                <View style={{ flexDirection: 'row' }}>
-                    <Ionicons name='person-circle' size={100} color={colors.gray} />
-                    <View style={{ justifyContent: 'space-around' }}>
-                        <Text style={{ color: colors.white, fontSize: 20, fontWeight: 'bold' }}>|PHIN BẠC</Text>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <FontAwesome5 name="award" size={20} color={colors.white} />
-                            <Text style={{ fontSize: 18, marginLeft: 10, color: colors.white }}>Coins: 0</Text>
-                        </View>
-                    </View>
-                </View>
+                <ProfileBar />
             </View>
             <View style={styles.bottom}>
                 <SectionList

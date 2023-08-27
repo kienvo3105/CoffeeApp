@@ -4,7 +4,7 @@ import Home from '../screens/Home';
 import Oder from '../screens/Oder';
 import History from '../screens/History/History';
 import Store from '../screens/Store/Store';
-import Setting from '../screens/Setting';
+import Setting from '../screens/Setting/Setting';
 
 import { colors } from '../constants/color';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';

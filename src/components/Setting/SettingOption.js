@@ -3,9 +3,13 @@ import React from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { colors } from '../../constants/color'
 
-const SettingOption = ({ id, name, iconName }) => {
+import { useNavigation } from '@react-navigation/native'
+
+const SettingOption = ({ id, name, iconName, navigate }) => {
+    const navigation = useNavigation();
     return (
-        <Pressable style={styles.container}>
+        <Pressable style={styles.container}
+            onPress={() => navigation.navigate(navigate)}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Ionicons name={iconName} size={20} color={colors.primary} />
                 <Text style={styles.text}>{name}</Text>
