@@ -31,8 +31,10 @@ const Home = () => {
         <View style={styles.container}>
             <TopBar />
             <ScrollView>
+                <View style={{ backgroundColor: "#f1e2b5", }}>
 
-                <RatingCard />
+                    <RatingCard />
+                </View>
 
                 {/* menu */}
                 <FlatList

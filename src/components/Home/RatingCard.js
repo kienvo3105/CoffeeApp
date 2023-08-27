@@ -1,14 +1,15 @@
-import { StyleSheet, ImageBackground, View } from 'react-native'
+import { StyleSheet, ImageBackground, View, Pressable } from 'react-native'
 import React from 'react'
 import LinearGradient from 'react-native-linear-gradient';
 import { Text } from 'react-native-elements';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { colors } from '../../constants/color';
-
+import { useNavigation } from '@react-navigation/native';
 
 const RatingCard = () => {
+    const navigation = useNavigation();
     return (
-        <View style={styles.container}>
+        <Pressable style={styles.container} onPress={() => navigation.navigate("MemberCardMenu")}>
             <LinearGradient colors={['#e2e2e2', '#afafaf', '#7c7c7c']} style={styles.card}>
                 <View style={styles.col}>
                     <View style={styles.topLeft} >
@@ -27,7 +28,7 @@ const RatingCard = () => {
                     </ImageBackground>
                 </View>
             </LinearGradient>
-        </View>
+        </Pressable>
     )
 }
 
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
         // flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: "#f1e2b5",
+        // backgroundColor: "#f1e2b5",
         height: 200
     },
     col: {
