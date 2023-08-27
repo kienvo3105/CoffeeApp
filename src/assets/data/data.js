@@ -169,3 +169,48 @@ export const listProductCart = [
         noted: ""
     },
 ]
+
+export const listExchangeCoin = [
+    {
+        id: 1,
+        title: '20 COINS = 5.000 VND',
+        price: 20,
+        change: 5000,
+        image: require("../image/branch/citiGround.jpg")
+    },
+    {
+        id: 2,
+        title: '35 COINS = 10.000 VND',
+        price: 35,
+        change: 10000,
+        image: require("../image/branch/citiGround.jpg")
+    },
+    {
+        id: 3,
+        title: '65 COINS = 20.000 VND',
+        price: 65,
+        change: 20000,
+        image: require("../image/branch/citiGround.jpg")
+    },
+    {
+        id: 4,
+        title: '20 COINS = 5.000 VND',
+        price: 20,
+        change: 5000,
+        image: require("../image/branch/citiGround.jpg")
+    },
+    {
+        id: 5,
+        title: '35 COINS = 10.000 VND',
+        price: 35,
+        change: 10000,
+        image: require("../image/branch/citiGround.jpg")
+    },
+    {
+        id: 6,
+        title: '65 COINS = 20.000 VND',
+        price: 65,
+        change: 20000,
+        image: require("../image/branch/citiGround.jpg")
+    },
+]
