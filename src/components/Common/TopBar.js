@@ -11,7 +11,7 @@ const TopBar = () => {
     return (
         <View style={styles.container}>
             <View style={styles.viewIcon}>
-                <Ionicons name='person-circle-outline' size={40} color={colors.primary} />
+                <Ionicons name='person-circle-outline' size={40} color={colors.primary} onPress={() => navigation.navigate("Profile")} />
                 <Ionicons name='search' size={40} color={colors.gray} onPress={() => navigation.navigate("Search")} />
             </View>
         </View>

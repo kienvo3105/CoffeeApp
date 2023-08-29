@@ -32,7 +32,15 @@ const MemberCardMenu = ({ navigation }) => {
                         borderRadius: 30,
                         height: 60,
                         // paddingTop: 10,
-                        paddingBottom: 5
+                        paddingBottom: 5,
+                        shadowColor: colors.darkGray,
+                        shadowOffset: {
+                            width: 0,
+                            height: 10,
+                        },
+                        shadowOpacity: 0.25,
+                        shadowRadius: 3.5,
+                        elevation: 5
                     }
                 }}
                 initialRouteName="Information"
