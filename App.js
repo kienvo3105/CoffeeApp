@@ -12,6 +12,8 @@ import Payment from './src/screens/Payment';
 import Search from './src/screens/Search';
 import Profile from './src/screens/Setting/Profile';
 import MemberCardMenu from './src/navigations/MemberCardMenu';
+import Login from './src/screens/Login';
+
 
 import { colors } from './src/constants/color';
 
@@ -26,7 +28,7 @@ const App = () => {
             <StatusBar backgroundColor={colors.primary} />
             <NavigationContainer>
                 <Stack.Navigator
-                    initialRouteName="BottomMenu"
+                    initialRouteName="Login"
                     screenOptions={{ headerShown: false }}
                 >
                     <Stack.Screen name="BottomMenu" component={BottomMenu} />
@@ -37,6 +39,7 @@ const App = () => {
                     <Stack.Screen name='Search' component={Search} />
                     <Stack.Screen name='Profile' component={Profile} />
                     <Stack.Screen name='MemberCardMenu' component={MemberCardMenu} />
+                    <Stack.Screen name='Login' component={Login} />
                 </Stack.Navigator>
             </NavigationContainer>
         </>
