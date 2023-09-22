@@ -1,31 +1,26 @@
-import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
-import React, { useState } from 'react'
+import { StyleSheet, Text, TouchableOpacity, View, Image, Alert } from 'react-native'
+import React, { useState, useEffect } from 'react'
 import { Input } from "@rneui/base";
 import { Button } from '@rneui/themed';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { colors } from '../constants/color';
+import { usePost } from '../api/post';
 
-const Login = () => {
+const Login = ({ navigation }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const { fetchPost, result, isError } = usePost();
 
     const handleOnPressLogin = async () => {
-        console.log("login", email, password)
-        const res = await fetch('http://192.168.137.147:3000/api/v1/auth/userLogin', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password,
-            }),
-        });
-        const json = await res.json();
-        console.log("🚀 ~ file: Login.js:26 ~ handleOnPressLogin ~ json:", json)
+        fetchPost("auth/userLogin", { email, password });
     }
+
+    useEffect(() => {
+        console.log("result", result)
+        if (result.errorCode && result.errorCode !== 0)
+            Alert.alert("Lỗi đăng nhập!!", "Tài khoản hoặc mật khẩu không đúng!")
+    }, [result])
 
     return (
         <View style={styles.container}>
@@ -50,13 +45,13 @@ const Login = () => {
                     rightIcon={<Icon name={showPassword ? "eye" : "eye-off"} size={22} onPress={() => setShowPassword(!showPassword)} />}
                     onChangeText={setPassword}
                     placeholder="Nhập mật khẩu"
-                    secureTextEntry={showPassword}
+                    secureTextEntry={!showPassword}
 
                 />
                 <TouchableOpacity style={{ alignItems: 'flex-end', marginBottom: 15 }}><Text style={styles.textPress}>Quên mật khẩu?</Text></TouchableOpacity>
             </View>
             <Button
-                title="LOG IN"
+                title="Đăng nhập"
                 buttonStyle={{
                     backgroundColor: colors.primary,
                     // borderWidth: 2,
@@ -74,7 +69,11 @@ const Login = () => {
             />
             <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
                 <Text style={{ fontSize: 16 }}>Khách hàng mới? </Text>
-                <TouchableOpacity><Text style={[styles.textPress, { fontSize: 16 }]}>Tạo một Tài khoản</Text></TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate("Register")}
+                >
+                    <Text style={[styles.textPress, { fontSize: 16 }]}>Tạo một Tài khoản</Text>
+                </TouchableOpacity>
             </View>
         </View>
     )

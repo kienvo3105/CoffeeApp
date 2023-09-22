@@ -13,7 +13,7 @@ import Search from './src/screens/Search';
 import Profile from './src/screens/Setting/Profile';
 import MemberCardMenu from './src/navigations/MemberCardMenu';
 import Login from './src/screens/Login';
-
+import Register from './src/screens/Register';
 
 import { colors } from './src/constants/color';
 
@@ -40,6 +40,7 @@ const App = () => {
                     <Stack.Screen name='Profile' component={Profile} />
                     <Stack.Screen name='MemberCardMenu' component={MemberCardMenu} />
                     <Stack.Screen name='Login' component={Login} />
+                    <Stack.Screen name='Register' component={Register} />
                 </Stack.Navigator>
             </NavigationContainer>
         </>
