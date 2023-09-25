@@ -1,31 +1,20 @@
-import { StyleSheet, Text, TouchableOpacity, View, Image, Alert } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import { StyleSheet, Text, TouchableOpacity, View, Image, Alert, ActivityIndicator } from 'react-native'
+import React, { useState, useContext, useEffect } from 'react'
 import { Input } from "@rneui/base";
 import { Button } from '@rneui/themed';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { colors } from '../constants/color';
-import { usePost } from '../api/post';
+// import { usePost } from '../api/post';
+import { AuthContext } from '../context/AuthContext';
 
 const Login = ({ navigation }) => {
+    const { signIn } = useContext(AuthContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
-    const { fetchPost, result, isError } = usePost();
-
-    const handleOnPressLogin = async () => {
-        fetchPost("auth/userLogin", { email, password });
-    }
-
-    useEffect(() => {
-        console.log("result", result)
-        if (result.errorCode && result.errorCode !== 0)
-            Alert.alert("Lỗi đăng nhập!!", "Tài khoản hoặc mật khẩu không đúng!")
-    }, [result])
-
     return (
         <View style={styles.container}>
             <View style={{ alignItems: 'center', marginTop: 20 }}>
-
                 <Image source={require("../assets/image/logoApp.png")} />
             </View>
             <View style={styles.formInput}>
@@ -65,7 +54,7 @@ const Login = ({ navigation }) => {
                 }}
                 titleStyle={{ fontWeight: 'bold' }}
                 disabled={email !== "" && password !== "" ? false : true}
-                onPress={handleOnPressLogin}
+                onPress={() => signIn(email, password)}
             />
             <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
                 <Text style={{ fontSize: 16 }}>Khách hàng mới? </Text>

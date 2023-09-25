@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Pressable, SectionList, Alert } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 
 import { colors } from '../../constants/color'
 import Entypo from 'react-native-vector-icons/Entypo'
@@ -8,6 +8,8 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import SettingOption from '../../components/Setting/SettingOption'
 import ProfileBar from '../../components/Setting/ProfileBar'
+
+import { AuthContext } from '../../context/AuthContext'
 
 const options = [
     {
@@ -83,6 +85,7 @@ const options = [
 ]
 
 const Setting = () => {
+    const { signOut } = useContext(AuthContext);
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -117,7 +120,7 @@ const Setting = () => {
                                     onPress: () => console.log('Cancel Pressed'),
                                     style: 'cancel',
                                 },
-                                { text: 'OK', onPress: () => console.log('OK Pressed') },])}>
+                                { text: 'OK', onPress: signOut },])}>
                                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: colors.white }}>{title}</Text>
                             </Pressable>
                             :

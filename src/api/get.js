@@ -6,20 +6,16 @@ import * as Keychain from 'react-native-keychain';
 export const usePost = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
-    const [result, setResult] = useState({});
+    const [result, setResult] = useState(undefined);
 
-    const fetchPost = async (path, data) => {
-        console.log("data:", data)
+    const fetchGet = async (path) => {
         setIsLoading(true);
         setIsError(false);
         const credentials = await Keychain.getGenericPassword();
-        const response = await fetch("http://192.168.1.16:3000/api/v1/" + path, {
-            method: "POST",
-            body: JSON.stringify(data),
+        const response = await fetch(process.env.REACT_APP_BACKEND_URL + path, {
+            method: "GET",
             headers: {
-                Accept: 'application/json',
-                "Content-Type": "application/json",
-                authorization: `${credentials ? credentials.password : null}`,
+                Authorization: `${credentials.password}`,
             },
         })
             .then((res) => {
@@ -30,11 +26,10 @@ export const usePost = () => {
             .catch((err) => {
                 setIsError(true);
                 setIsLoading(false);
-                console.log("error fetch post", err)
             });
         setResult(response);
         return response;
     };
 
-    return { isLoading, isError, fetchPost, result };
+    return { isLoading, isError, fetchGet, result };
 };
