@@ -14,6 +14,7 @@ import MemberCardMenu from './MemberCardMenu';
 import Login from '../screens/Login';
 import Register from '../screens/Register';
 
+import { colors } from '../constants/color';
 import { usePost } from '../api/post';
 import { AuthContext } from '../context/AuthContext';
 import * as Keychain from 'react-native-keychain';
@@ -107,18 +108,19 @@ const RootNavigation = () => {
     );
 
     useEffect(() => {
-        console.log("result", result)
-        const login = async () => {
-            let userToken = null;
-            if (result?.errorCode && result?.errorCode !== 0)
-                Alert.alert("Lỗi đăng nhập!!", "Tài khoản hoặc mật khẩu không đúng!")
-            if (result?.errorCode === 0) {
-                userToken = result.token;
-                await Keychain.setGenericPassword('myToken', userToken);
+        if (result) {
+            const login = async () => {
+                let userToken = null;
+                if (result?.errorCode && result?.errorCode !== 0)
+                    Alert.alert("Lỗi đăng nhập!!", "Tài khoản hoặc mật khẩu không đúng!")
+                if (result?.errorCode === 0) {
+                    userToken = result.token;
+                    await Keychain.setGenericPassword('myToken', userToken);
+                }
+                dispatch({ type: 'SIGN_IN', token: userToken });
             }
-            dispatch({ type: 'SIGN_IN', token: userToken });
+            login();
         }
-        login();
     }, [result])
 
     if (state.isLoading) {
@@ -131,7 +133,7 @@ const RootNavigation = () => {
 
     return (
         <AuthContext.Provider value={authContext}>
-            <StatusBar backgroundColor={"black"} />
+            <StatusBar backgroundColor={state.userToken === null ? "black" : colors.primary} />
             <NavigationContainer>
                 <Stack.Navigator
                     // initialRouteName="Login"

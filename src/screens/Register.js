@@ -1,18 +1,51 @@
-import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
-import React, { useState } from 'react'
+import { StyleSheet, Text, TouchableOpacity, View, Image, Alert, ActivityIndicator } from 'react-native'
+import React, { useState, useEffect } from 'react'
 import { Input } from "@rneui/base";
 import { Button } from '@rneui/themed';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { colors } from '../constants/color';
-
+import { usePost } from '../api/post';
 
 const Register = ({ navigation }) => {
+    const { fetchPost, isLoading, isError, result } = usePost();
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
     const [repeatPassword, setRepeatPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showRepeatPassword, setShowRepeatPassword] = useState(false);
+
+    const handlePressRegister = async () => {
+        try {
+            await fetchPost("auth/register", { email, phoneNumber: phone, password })
+        } catch (e) {
+            Alert.alert("Đăng kí thất bại!!")
+            console.log("Error register:", e);
+        }
+    }
+
+    useEffect(() => {
+        if (result) {
+            console.log("🚀 ~ file: Register.js:29 ~ useEffect ~ result:", result)
+            console.log("🚀 ~ file: Register.js:31 ~ useEffect ~ isError:", isError)
+            if (!isError) {
+                Alert.alert("Đăng kí thành công! Hãy đăng nhập!");
+                navigation.navigate("Login");
+            }
+            else if (result.errorCode === 2)
+                Alert.alert("Email đã tồn tại!!")
+        }
+    }, [result])
+
+    if (isLoading) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size="large" color="#3465a4" />
+            </View>
+        )
+    }
+
+
     return (
         <View style={styles.container}>
             <View style={styles.formInput}>
@@ -73,7 +106,7 @@ const Register = ({ navigation }) => {
                     phone !== "" && repeatPassword !== "" &&
                     repeatPassword === password
                     ? false : true}
-
+                onPress={handlePressRegister}
             />
             <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
                 <Text style={{ fontSize: 16 }}>Đã có tài khoản? </Text>

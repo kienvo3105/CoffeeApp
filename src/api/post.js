@@ -6,7 +6,7 @@ import * as Keychain from 'react-native-keychain';
 export const usePost = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
-    const [result, setResult] = useState({});
+    const [result, setResult] = useState(null);
 
     const fetchPost = async (path, data) => {
         console.log("data:", data)
