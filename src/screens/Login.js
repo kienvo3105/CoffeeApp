@@ -4,7 +4,6 @@ import { Input } from "@rneui/base";
 import { Button } from '@rneui/themed';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { colors } from '../constants/color';
-// import { usePost } from '../api/post';
 import { AuthContext } from '../context/AuthContext';
 
 const Login = ({ navigation }) => {
@@ -24,6 +23,7 @@ const Login = ({ navigation }) => {
                     label="Email"
                     leftIcon={<Icon name="account" size={20} />}
                     onChangeText={setEmail}
+                    value={email}
                     placeholder="Nhập Email"
                 />
                 <Input
@@ -33,6 +33,7 @@ const Login = ({ navigation }) => {
                     leftIcon={<Icon name="lock" size={18} />}
                     rightIcon={<Icon name={showPassword ? "eye" : "eye-off"} size={22} onPress={() => setShowPassword(!showPassword)} />}
                     onChangeText={setPassword}
+                    value={password}
                     placeholder="Nhập mật khẩu"
                     secureTextEntry={!showPassword}
 

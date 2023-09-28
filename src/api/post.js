@@ -13,7 +13,7 @@ export const usePost = () => {
         setIsLoading(true);
         setIsError(false);
         const credentials = await Keychain.getGenericPassword();
-        const response = await fetch("http://192.168.1.16:3000/api/v1/" + path, {
+        const response = await fetch("http://192.168.137.147:3000/api/v1/" + path, {
             method: "POST",
             body: JSON.stringify(data),
             headers: {

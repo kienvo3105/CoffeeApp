@@ -21,15 +21,21 @@ const BottomMenu = () => {
     const { signOut } = useContext(AuthContext);
     useEffect(() => {
         const fetchUser = async () => {
-            const credentials = await Keychain.getGenericPassword();
-            let decoded = jwt_decode(credentials.password);
-            const currentDate = new Date()
-            if (!decoded || decoded.exp - currentDate < 0) {
-                Alert.alert("Lỗi đăng nhập", "Phiên đăng nhập đã hết hạn! Vui lòng đăng nhập!")
-                signOut();
+            try {
+
+                const credentials = await Keychain.getGenericPassword();
+                let decoded = jwt_decode(credentials.password);
+                const currentDate = new Date()
+                if (!decoded || decoded.exp - currentDate < 0) {
+                    Alert.alert("Lỗi đăng nhập", "Phiên đăng nhập đã hết hạn! Vui lòng đăng nhập!")
+                    signOut();
+                }
+                else
+
+                    await fetchGet(`/user/${decoded.Info.id}`);
+            } catch (e) {
+                console.log("Error fetch user:", e);
             }
-            else
-                await fetchGet(`/user/${decoded.Info.id}`)
         }
         fetchUser();
     }, [])
