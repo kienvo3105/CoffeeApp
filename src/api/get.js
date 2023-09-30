@@ -9,13 +9,12 @@ export const useGet = () => {
     const [result, setResult] = useState(undefined);
 
     const fetchGet = async (path) => {
-        console.log("🚀 ~ file: get.js:12 ~ fetchGet ~ path:", path)
         setIsLoading(true);
         setIsError(false);
         const credentials = await Keychain.getGenericPassword();
 
         // const response = await fetch(process.env.REACT_APP_BACKEND_URL + path, {
-        const response = await fetch("http://192.168.137.147:3000/api/v1" + path, {
+        const response = await fetch(config.API_URL + path, {
             method: "GET",
             headers: {
                 Authorization: `${credentials.password}`,

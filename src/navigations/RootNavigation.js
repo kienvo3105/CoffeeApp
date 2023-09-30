@@ -18,7 +18,6 @@ import { colors } from '../constants/color';
 import { usePost } from '../api/post';
 import { AuthContext } from '../context/AuthContext';
 import * as Keychain from 'react-native-keychain';
-
 const Stack = createStackNavigator();
 
 const RootNavigation = () => {
@@ -83,7 +82,6 @@ const RootNavigation = () => {
             // screen will be unmounted and thrown away.
             dispatch({ type: 'RESTORE_TOKEN', token: userToken });
         };
-
         bootstrapAsync();
     }, []);
 
@@ -122,6 +120,13 @@ const RootNavigation = () => {
             login();
         }
     }, [result])
+
+    useEffect(() => {
+        if (isError) {
+            Alert.alert("Lỗi đăng nhập! Vui lòng thử lại");
+            dispatch({ type: "ERROR" })
+        }
+    }, [isError])
 
     if (state.isLoading) {
         return (

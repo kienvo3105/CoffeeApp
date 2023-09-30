@@ -1,3 +1,6 @@
-import { API_URL } from "@env"
+// import { API_URL, NODE_ENV } from "@env"
 
-export default { API_URL }
+const API_URL = "http://192.168.137.147:3000/api/v1/"
+const NODE_ENV = "development"
+
+export default { API_URL, NODE_ENV }

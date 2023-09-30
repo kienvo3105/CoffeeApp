@@ -3,6 +3,7 @@ import React from 'react'
 import { colors } from './src/constants/color';
 import RootNavigation from './src/navigations/RootNavigation';
 import { Provider } from 'react-redux';
+
 import store from './src/redux/store';
 
 

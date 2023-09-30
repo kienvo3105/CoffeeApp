@@ -8,7 +8,6 @@ import AdBanner from '../components/Home/AdBanner'
 import BestProduct from '../components/Home/BestProduct'
 import Cart from '../components/Common/Cart/Cart'
 
-
 import { colors } from '../constants/color'
 
 import { itemBestSeller, itemCategory, itemPromotion } from '../assets/data/data'
@@ -32,7 +31,6 @@ const Home = () => {
             <TopBar />
             <ScrollView>
                 <View style={{ backgroundColor: "#f1e2b5", }}>
-
                     <RatingCard />
                 </View>
 

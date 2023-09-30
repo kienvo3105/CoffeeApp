@@ -6,18 +6,23 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { colors } from '../../constants/color';
 import { useNavigation } from '@react-navigation/native';
 
+import { userSelector } from '../../redux/selectors'
+import { useSelector } from 'react-redux'
+
+
 const RatingCard = () => {
     const navigation = useNavigation();
+    const user = useSelector(userSelector);
     return (
         <Pressable style={styles.container} onPress={() => navigation.navigate("MemberCardMenu")}>
             <LinearGradient colors={['#e2e2e2', '#afafaf', '#7c7c7c']} style={styles.card}>
                 <View style={styles.col}>
                     <View style={styles.topLeft} >
-                        <Text style={styles.textRank}>HẠNG BẠC</Text>
+                        <Text style={styles.textRank}>HẠNG {user.membershipClass}</Text>
                     </View>
                     <View style={styles.bottomLeft}>
                         <FontAwesome5 name="award" size={20} color={colors.white} />
-                        <Text style={styles.textCoin}>Coins: 0</Text>
+                        <Text style={styles.textCoin}>Coins: {user.coins}</Text>
                     </View>
 
                 </View>

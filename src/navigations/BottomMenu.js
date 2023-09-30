@@ -6,33 +6,33 @@ import Oder from '../screens/Oder';
 import History from '../screens/History/History';
 import Store from '../screens/Store/Store';
 import Setting from '../screens/Setting/Setting';
-import jwt_decode from "jwt-decode";
 import { colors } from '../constants/color';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useGet } from '../api/get';
 import { AuthContext } from '../context/AuthContext';
-import * as Keychain from 'react-native-keychain';
-
+import { useDispatch } from 'react-redux';
+import userSlice from '../redux/userSlice';
+import { checkToken } from '../helpers/helper';
 const Tab = createBottomTabNavigator();
 
 const BottomMenu = () => {
     const { result, isError, fetchGet } = useGet();
     const { signOut } = useContext(AuthContext);
+
+    const dispatch = useDispatch();
+
     useEffect(() => {
         const fetchUser = async () => {
             try {
-
-                const credentials = await Keychain.getGenericPassword();
-                let decoded = jwt_decode(credentials.password);
-                const currentDate = new Date()
-                if (!decoded || decoded.exp - currentDate < 0) {
+                const userId = await checkToken();
+                if (userId) {
+                    await fetchGet(`user/${userId}`);
+                }
+                else {
                     Alert.alert("Lỗi đăng nhập", "Phiên đăng nhập đã hết hạn! Vui lòng đăng nhập!")
                     signOut();
                 }
-                else
-
-                    await fetchGet(`/user/${decoded.Info.id}`);
             } catch (e) {
                 console.log("Error fetch user:", e);
             }
@@ -42,8 +42,7 @@ const BottomMenu = () => {
 
     useEffect(() => {
         if (result && !isError) {
-            // console.log("error:", isError)
-            console.log("info user:", result)
+            dispatch(userSlice.actions.userChange(result.user));
         }
     }, [result])
 

@@ -11,6 +11,9 @@ import ProfileBar from '../../components/Setting/ProfileBar'
 
 import { AuthContext } from '../../context/AuthContext'
 
+import { useSelector } from 'react-redux';
+import { userSelector } from '../../redux/selectors'
+
 const options = [
     {
         id: 'account',
@@ -86,6 +89,7 @@ const options = [
 
 const Setting = () => {
     const { signOut } = useContext(AuthContext);
+    const user = useSelector(userSelector);
     return (
         <View style={styles.container}>
             <View style={styles.header}>

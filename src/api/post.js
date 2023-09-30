@@ -9,11 +9,11 @@ export const usePost = () => {
     const [result, setResult] = useState(null);
 
     const fetchPost = async (path, data) => {
-        console.log("data:", data)
         setIsLoading(true);
         setIsError(false);
+
         const credentials = await Keychain.getGenericPassword();
-        const response = await fetch("http://192.168.137.147:3000/api/v1/" + path, {
+        const response = await fetch(config.API_URL + path, {
             method: "POST",
             body: JSON.stringify(data),
             headers: {

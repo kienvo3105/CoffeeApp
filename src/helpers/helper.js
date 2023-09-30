@@ -8,3 +8,14 @@ export const formatCurrency = (value) => {
     // Sử dụng hàm toLocaleString để định dạng số và thêm đơn vị đồng (đ)
     return value.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
 };
+
+import * as Keychain from 'react-native-keychain';
+import jwt_decode from "jwt-decode";
+export const checkToken = async () => {
+    const credentials = await Keychain.getGenericPassword();
+    let decoded = jwt_decode(credentials.password);
+    const currentDate = new Date()
+    if (!decoded || decoded.exp * 1000 - currentDate < 0)
+        return false;
+    return decoded.Info.id;
+}
