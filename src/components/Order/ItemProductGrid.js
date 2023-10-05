@@ -3,13 +3,13 @@ import React from 'react'
 import { colors } from '../../constants/color'
 import { useNavigation } from '@react-navigation/native'
 import { formatCurrency } from '../../helpers/helper'
-const ItemProductGrid = ({ item }) => {
+const ItemProductGrid = ({ item, sizeList }) => {
     const navigation = useNavigation();
     return (
         <Pressable style={styles.container}
-            onPress={() => navigation.navigate("ProductDetail", { ...item })}>
+            onPress={() => navigation.navigate("ProductDetail", { ...item, sizeList })}>
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <Image source={item.image} resizeMode='contain' style={styles.image} />
+                <Image source={{ uri: item.image }} resizeMode='contain' style={styles.image} />
             </View>
             <View style={styles.viewText}>
                 <Text style={styles.text}>{item.title}</Text>

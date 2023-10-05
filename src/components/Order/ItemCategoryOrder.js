@@ -9,7 +9,7 @@ const ItemCategoryOrder = ({ url, name, id, selected, handlePressItem }) => {
             android_disableSound
             style={[styles.container, { borderBottomWidth: id === selected ? 2 : 0, }]}
             onPress={() => handlePressItem(id, name)}>
-            <Image source={url} resizeMode='contain' style={styles.image} />
+            <Image source={{ uri: url }} resizeMode='contain' style={styles.image} />
             <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                 <Text
                     style={[styles.text, { color: id === selected ? colors.primary : colors.textPrimary }]}
@@ -25,7 +25,7 @@ export default ItemCategoryOrder
 const styles = StyleSheet.create({
     container: {
         // flex: 1,
-        height: 90,
+        height: 110,
         alignItems: 'center',
         // justifyContent: 'center',
         borderColor: colors.primary,
@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     image: {
-        maxHeight: 50
+        height: 65,
+        width: 65
     }
 })

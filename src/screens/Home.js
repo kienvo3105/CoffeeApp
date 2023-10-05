@@ -1,5 +1,5 @@
-import { StyleSheet, ScrollView, View, FlatList, Text } from 'react-native'
-import React from 'react'
+import { StyleSheet, ScrollView, View, FlatList, Text, Alert, Image } from 'react-native'
+import React, { useEffect } from 'react'
 import TopBar from '../components/Common/TopBar'
 import RatingCard from '../components/Home/RatingCard'
 import ItemCategory from '../components/Home/ItemCategory'
@@ -8,12 +8,16 @@ import AdBanner from '../components/Home/AdBanner'
 import BestProduct from '../components/Home/BestProduct'
 import Cart from '../components/Common/Cart/Cart'
 
+import categorySlice from '../redux/categorySlice'
+import { useDispatch, useSelector } from 'react-redux';
+import { useGet } from '../api'
+import { categoriesSelector } from '../redux/selectors'
 import { colors } from '../constants/color'
 
 import { itemBestSeller, itemCategory, itemPromotion } from '../assets/data/data'
 
 const renderItemCategory = ({ item }) => {
-    return (<ItemCategory url={item.img} name={item.name} category={item.id} />)
+    return (<ItemCategory url={item.image} name={item.name} category={item.id} />)
 }
 
 const renderItemPromotion = ({ item }) => {
@@ -26,6 +30,28 @@ const renderItemProduct = ({ item }) => {
 
 
 const Home = () => {
+    const { fetchGet, isError, isLoading, result } = useGet();
+    const dispatch = useDispatch();
+    const categories = useSelector(categoriesSelector);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            await fetchGet("category");
+        }
+        fetchData();
+    }, [])
+
+    useEffect(() => {
+
+        if (result) {
+            if (isError)
+                Alert.alert("Lỗi lấy dữ liệu!", "Vui lòng thử lại!");
+            else {
+                dispatch(categorySlice.actions.addCategory(result.allCategory));
+            }
+        }
+    }, [result])
+
     return (
         <View style={styles.container}>
             <TopBar />
@@ -37,7 +63,7 @@ const Home = () => {
                 {/* menu */}
                 <FlatList
                     style={styles.menu}
-                    data={itemCategory}
+                    data={categories}
                     renderItem={renderItemCategory}
                     keyExtractor={item => item.id}
                     horizontal
@@ -83,9 +109,10 @@ const styles = StyleSheet.create({
     },
     menu: {
         backgroundColor: colors.white,
-        paddingTop: 20,
-        height: 110,
-        flexGrow: 0
+        paddingTop: 10,
+        height: 120,
+        // paddingHorizontal: 5
+        // flexGrow: 0
     },
     listPromote: {
         backgroundColor: colors.white,

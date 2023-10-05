@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Feather from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -7,16 +7,26 @@ import ItemProduct from './ItemProduct';
 import ItemProductGrid from './ItemProductGrid';
 
 import { colors } from '../../constants/color';
+import { useSelector } from 'react-redux';
+import { categoriesSelector } from '../../redux/selectors';
 
 const ProductList = ({ selected, listProduct, check }) => {
     const [typeArrange, setTypeArrange] = useState('list');
+    const categories = useSelector(categoriesSelector);
+    const [sizeList, setSizeList] = useState([]);
+
+    useEffect(() => {
+        const categorySelected = categories.find((category) => category.id === selected.id)
+        setSizeList(categorySelected.Sizes);
+    }, [])
+
 
     const renderItemProduct = ({ item }) => {
-        return (<ItemProduct item={item} />)
+        return (<ItemProduct item={item} sizeList={sizeList} />)
     }
 
     const renderItemProductGrid = ({ item }) => {
-        return (<ItemProductGrid item={item} />)
+        return (<ItemProductGrid item={item} sizeList={sizeList} />)
     }
 
     const HorizontalLineSeparator = () => {

@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, } from 'react-native';
-import React, { useState } from 'react';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Alert, } from 'react-native';
+import React, { useEffect, useState } from 'react';
 
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -8,21 +8,43 @@ import ItemCategoryOrder from '../components/Order/ItemCategoryOrder';
 import BarCart from '../components/Order/BarCart';
 
 import ProductList from '../components/Order/ProductList';
-
-import { itemCategory, itemProduct } from '../assets/data/data';
+import { useSelector, useDispatch } from 'react-redux';
+import categorySlice from '../redux/categorySlice';
+import { categoriesSelector, categorySelectedSelector, productsSelector } from '../redux/selectors';
 import { useNavigation } from '@react-navigation/native'
+
+import { useGet } from '../api';
+
 const Oder = () => {
     const navigation = useNavigation();
-    const [selected, setSelected] = useState({ id: itemCategory[0].id, name: itemCategory[0].name });
-    const [listProduct, setListProduct] = useState(itemProduct[1]);
+    const { isError, isLoading, result, fetchGet } = useGet();
+    const dispatch = useDispatch();
+    const selected = useSelector(categorySelectedSelector);
+    const products = useSelector(productsSelector)
+    const categories = useSelector(categoriesSelector)
 
     const renderItemCategory = ({ item }) => {
-        return (<ItemCategoryOrder url={item.img} name={item.name} id={item.id} selected={selected.id}
+        return (<ItemCategoryOrder url={item.image} name={item.name} id={item.id} selected={selected.id}
             handlePressItem={(id, name) => {
-                setSelected({ id, name })
-                setListProduct(itemProduct[id])
+                dispatch(categorySlice.actions.selectCategory({ id, name }));
             }} />)
     };
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            await fetchGet(`product/category/${selected.id}`);
+        }
+        fetchProducts();
+    }, [selected])
+
+    useEffect(() => {
+        if (result)
+            if (!isError) {
+                dispatch(categorySlice.actions.addProducts(result.products))
+            }
+            else
+                Alert.alert("Lỗi xảy ra không thể hiển thị sản phẩm!");
+    }, [result])
 
     return (
         <View style={styles.container}>
@@ -36,7 +58,7 @@ const Oder = () => {
             {/* menu */}
             <View>
                 <FlatList
-                    data={itemCategory}
+                    data={categories}
                     renderItem={renderItemCategory}
                     keyExtractor={item => item.id.toString()}
                     horizontal
@@ -45,7 +67,7 @@ const Oder = () => {
             </View>
 
             {/* product list */}
-            <ProductList selected={selected} listProduct={listProduct} />
+            <ProductList selected={selected} listProduct={products} />
             <BarCart />
         </View>
     )

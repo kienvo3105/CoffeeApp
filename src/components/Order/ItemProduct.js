@@ -4,11 +4,11 @@ import React from 'react'
 import { colors } from '../../constants/color'
 import { useNavigation } from '@react-navigation/native'
 import { formatCurrency } from '../../helpers/helper'
-const ItemProduct = ({ item }) => {
+const ItemProduct = ({ item, sizeList }) => {
     const navigation = useNavigation();
     return (
-        <Pressable style={styles.container} onPress={() => navigation.navigate("ProductDetail", { ...item })}>
-            <Image source={item.image} resizeMode='contain' style={styles.image} />
+        <Pressable style={styles.container} onPress={() => navigation.navigate("ProductDetail", { ...item, sizeList })}>
+            <Image source={{ uri: item.image }} resizeMode='contain' style={styles.image} />
             <View style={styles.ViewText}>
                 <View style={styles.header}>
                     <Text style={styles.textHeader}>{item.title}</Text>

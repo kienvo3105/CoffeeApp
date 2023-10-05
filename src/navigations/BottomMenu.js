@@ -9,7 +9,7 @@ import Setting from '../screens/Setting/Setting';
 import { colors } from '../constants/color';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { useGet } from '../api/get';
+import { useGet } from '../api';
 import { AuthContext } from '../context/AuthContext';
 import { useDispatch } from 'react-redux';
 import userSlice from '../redux/userSlice';

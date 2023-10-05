@@ -15,7 +15,7 @@ import Login from '../screens/Login';
 import Register from '../screens/Register';
 
 import { colors } from '../constants/color';
-import { usePost } from '../api/post';
+import { usePost } from '../api';
 import { AuthContext } from '../context/AuthContext';
 import * as Keychain from 'react-native-keychain';
 const Stack = createStackNavigator();

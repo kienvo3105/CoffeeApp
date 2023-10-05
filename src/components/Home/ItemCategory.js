@@ -14,7 +14,7 @@ const ItemCategory = ({ url, name, category }) => {
             android_disableSound
             style={styles.container}
             onPress={() => navigation.navigate("ListProductScreen", { categoryID: category, categoryName: name })}>
-            <Image source={url} resizeMode='contain' style={styles.image} />
+            <Image source={{ uri: url }} resizeMode='contain' style={styles.image} />
             {/* <View > */}
             <Text style={styles.text} numberOfLines={2}
                 ellipsizeMode='tail'>{name}</Text>
@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
         // flex: 1,
         // height: 100,
         alignItems: 'center',
+        paddingHorizontal: 5
         // paddingBottom: 20
     },
     text: {
@@ -39,6 +40,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     image: {
-        maxHeight: 50,
+        height: 65,
+        width: 65
     }
 })
