@@ -16,3 +16,6 @@ export const sizeProductSelector = createSelector(
             }
         })
     })
+
+
+export const branchSelectedSelector = (state) => state.branch.categorySelected;

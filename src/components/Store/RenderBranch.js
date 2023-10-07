@@ -1,16 +1,31 @@
 import { StyleSheet, Text, View, Pressable, FlatList } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { SearchBar } from '@rneui/themed';
 import BranchItem from './BranchItem';
 import Map from './Map';
 import { colors } from '../../constants/color'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import { branchList } from '../../assets/data/data';
+import { useGet } from '../../api';
 
 const RenderBranch = () => {
+    const { fetchGet, result, isError } = useGet();
     const [search, setSearch] = useState("");
     const [viewMode, setViewMode] = useState("list");
+    const [branchList, setBranchList] = useState([]);
+    useEffect(() => {
+        const fetchBranch = async () => {
+            await fetchGet("branch");
+        }
+        fetchBranch();
+    }, [])
+
+    useEffect(() => {
+        if (result && !isError) {
+            setBranchList(result.allBranch);
+        }
+    }, [result])
+
     return (
         <View style={{ flex: 1 }}>
             {/* search bar */}

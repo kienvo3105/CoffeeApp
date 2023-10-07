@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps'
 const Map = ({ branchList }) => {
+    console.log("🚀 ~ file: Map.js:5 ~ Map ~ branchList:", branchList)
     return (
         <View style={styles.container}>
             <MapView
@@ -9,9 +10,9 @@ const Map = ({ branchList }) => {
                 style={{ width: '100%', height: '100%' }}
                 region={{
                     latitude: 10.7652479,
-                    longitude: 106.7069006,
-                    latitudeDelta: 0.0922,
-                    longitudeDelta: 0.0421,
+                    longitude: 106.6800000,
+                    latitudeDelta: 0.2222,
+                    longitudeDelta: 0.1621,
                 }}
             >
                 {/* <Marker
@@ -26,9 +27,12 @@ const Map = ({ branchList }) => {
                 {branchList.map((branch) => (
                     <Marker
                         key={branch.id.toString()}
-                        coordinate={branch.latLng}
+                        coordinate={{
+                            latitude: branch.Address.latitude,
+                            longitude: branch.Address.longitude,
+                        }}
                         title={branch.name}
-                        description={`${branch.apartmentNumber} ${branch.street}, ${branch.ward} , ${branch.district}`}
+                        description={`${branch.Address.houseNumber} ${branch.Address.street}, ${branch.Address.commune} , ${branch.Address.district}`}
                         onCalloutPress={() => console.log(branch.name)}
                     />
                 ))}

@@ -3,12 +3,12 @@ import React from 'react'
 import { colors } from '../../constants/color'
 
 import { useNavigation } from '@react-navigation/native';
-
-const nameBranch = "Satramart 3/2";
-const address = "460 3 Tháng 2, P.12, Q.10";
+import { useSelector } from 'react-redux';
+import { branchSelectedSelector } from '../../redux/selectors';
 
 const ItemDeliveryMethod = ({ method, image, selected, handlePressSelect }) => {
     const navigation = useNavigation()
+    const branchSelected = useSelector(branchSelectedSelector);
     return (
         <Pressable
             style={[styles.container, { borderColor: selected === method ? colors.primary : 'gray' }]}
@@ -18,12 +18,13 @@ const ItemDeliveryMethod = ({ method, image, selected, handlePressSelect }) => {
                 <View>
                     <Text style={styles.method}>{method}</Text>
                     <Text style={styles.address}>
-                        {nameBranch + "\n" + address}
+                        {`${branchSelected?.name}\n${branchSelected?.Address.houseNumber} ${branchSelected?.Address.street}\n${branchSelected?.Address.commune}, ${branchSelected?.Address.district}`}
                     </Text>
                 </View>
             </View>
             <Pressable onPress={() => {
-                navigation.navigate("SelectStoreScreen")
+                handlePressSelect(method);
+                navigation.navigate("SelectStoreScreen");
             }}>
                 <Text style={styles.change}>Sửa</Text>
             </Pressable>
