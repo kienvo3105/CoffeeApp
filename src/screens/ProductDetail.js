@@ -8,8 +8,13 @@ import Size from '../components/ProductDetail.js/Size'
 import { formatCurrency } from '../helpers/helper'
 import AddProductBar from '../components/ProductDetail.js/AddProductBar'
 
+import { useDispatch } from 'react-redux'
+import cartSlice from '../redux/cartSlice'
+
+
 const ProductDetail = ({ route, navigation }) => {
-    const { title, price, id, image, describe, sizeList } = route.params;
+    const dispatch = useDispatch();
+    const { name, price, id, image, describe, sizeList } = route.params;
     const [size, setSize] = useState("S");
     const [finalPrice, setFinalPrice] = useState(price);
     const [text, onChangeText] = useState('');
@@ -19,13 +24,28 @@ const ProductDetail = ({ route, navigation }) => {
         setFinalPrice(price + addMoney);
     }
 
+    const handleAddProduct = (quantity) => {
+        const itemId = new Date();
+        const item = {
+            id: itemId.getTime(),
+            productId: id,
+            productName: name,
+            sizeId: `s_${size}`,
+            quantity: quantity,
+            price: finalPrice * quantity,
+            noted: text
+        }
+        dispatch(cartSlice.actions.addItem(item));
+        navigation.goBack();
+    }
+
     return (
         <View style={styles.container}>
             {/* back bar */}
             <View style={styles.backBar}>
                 <Ionicons name='close' size={40} color={colors.textPrimary} onPress={() => navigation.goBack()} />
                 <View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
-                    <Text style={{ color: colors.white, fontSize: 18, fontWeight: 'bold' }}>{title}</Text>
+                    <Text style={{ color: colors.white, fontSize: 18, fontWeight: 'bold' }}>{name}</Text>
                 </View>
             </View>
             <View style={{ flex: 1, }}>
@@ -38,7 +58,7 @@ const ProductDetail = ({ route, navigation }) => {
                     {/* info product */}
                     <View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
-                            <Text style={styles.textMain}>{title}</Text>
+                            <Text style={styles.textMain}>{name}</Text>
                             <Text style={styles.textMain}>{formatCurrency(finalPrice)}</Text>
                         </View>
                         <Text style={styles.describe}>{describe + "\n"}Giá đã bao gồm 8% VAT.</Text>
@@ -71,7 +91,7 @@ const ProductDetail = ({ route, navigation }) => {
                     </View>
                 </View>
             </View>
-            <AddProductBar price={finalPrice} />
+            <AddProductBar price={finalPrice} handleAddProduct={handleAddProduct} />
         </View>
     )
 }

@@ -19,3 +19,6 @@ export const sizeProductSelector = createSelector(
 
 
 export const branchSelectedSelector = (state) => state.branch.categorySelected;
+
+export const numberCartSelector = (state) => state.cart.numberItem;
+export const itemsCartSelector = (state) => state.cart.items;

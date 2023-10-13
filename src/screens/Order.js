@@ -15,7 +15,7 @@ import { useNavigation } from '@react-navigation/native'
 
 import { useGet } from '../api';
 
-const Oder = () => {
+const Order = () => {
     const navigation = useNavigation();
     const { isError, isLoading, result, fetchGet } = useGet();
     const dispatch = useDispatch();
@@ -73,7 +73,7 @@ const Oder = () => {
     )
 };
 
-export default Oder;
+export default Order;
 
 const styles = StyleSheet.create({
     container: {

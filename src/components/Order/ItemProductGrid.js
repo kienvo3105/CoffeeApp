@@ -12,7 +12,7 @@ const ItemProductGrid = ({ item, sizeList }) => {
                 <Image source={{ uri: item.image }} resizeMode='contain' style={styles.image} />
             </View>
             <View style={styles.viewText}>
-                <Text style={styles.text}>{item.title}</Text>
+                <Text style={styles.text}>{item.name}</Text>
                 <Text style={styles.text}>{formatCurrency(item.price)}</Text>
             </View>
         </Pressable>

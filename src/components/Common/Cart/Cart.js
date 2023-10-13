@@ -6,13 +6,17 @@ import { colors } from '../../../constants/color'
 
 import SelectTimeOrderModal from './SelectTimeOrderModal'
 
+import { useSelector } from 'react-redux'
+import { numberCartSelector } from '../../../redux/selectors'
+
 const Cart = () => {
-    const [visibleModal, setVisibleModal] = useState(false)
+    const [visibleModal, setVisibleModal] = useState(false);
+    const numberCart = useSelector(numberCartSelector);
     return (
         <Pressable style={styles.container}
             onPress={() => setVisibleModal(true)}>
             <Ionicons name='bag' size={30} color={colors.white} style={{ padding: 5 }} />
-            <Text style={styles.numberProduct}>21</Text>
+            <Text style={styles.numberProduct}>{numberCart}</Text>
             {
                 visibleModal &&
                 <SelectTimeOrderModal visibleModal={visibleModal} handleCloseModal={() => setVisibleModal(false)} />

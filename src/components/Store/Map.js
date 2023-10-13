@@ -2,7 +2,6 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps'
 const Map = ({ branchList }) => {
-    console.log("🚀 ~ file: Map.js:5 ~ Map ~ branchList:", branchList)
     return (
         <View style={styles.container}>
             <MapView

@@ -11,7 +11,7 @@ const ItemProduct = ({ item, sizeList }) => {
             <Image source={{ uri: item.image }} resizeMode='contain' style={styles.image} />
             <View style={styles.ViewText}>
                 <View style={styles.header}>
-                    <Text style={styles.textHeader}>{item.title}</Text>
+                    <Text style={styles.textHeader}>{item.name}</Text>
                     <Text style={styles.textHeader}>{formatCurrency(item.price)}</Text>
                 </View>
                 <Text

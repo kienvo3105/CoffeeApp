@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from 'react'
 import { Alert } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../screens/Home';
-import Oder from '../screens/Oder';
+import Order from '../screens/Order';
 import History from '../screens/History/History';
 import Store from '../screens/Store/Store';
 import Setting from '../screens/Setting/Setting';
@@ -59,8 +59,8 @@ const BottomMenu = () => {
                     ),
                 }} />
             <Tab.Screen
-                name="Oder"
-                component={Oder}
+                name="Order"
+                component={Order}
                 options={{
                     tabBarLabel: 'Đặt hàng',
                     tabBarIcon: ({ color, size }) => (

@@ -4,14 +4,14 @@ import { Icon } from '@rneui/themed';
 import { colors } from '../../constants/color';
 import { formatCurrency } from '../../helpers/helper';
 const ItemProductCart = ({ item }) => {
-    const { productName, numberProduct, totalPrice, size, noted } = item
+    const { productName, quantity, price, sizeId, noted } = item
     return (
         <View style={styles.container}>
             <View style={{ flexDirection: 'row', }}>
-                <Text style={styles.text}>({numberProduct}x)</Text>
+                <Text style={styles.text}>({quantity}x)</Text>
                 <View style={{ marginLeft: 5 }}>
                     <Text style={[styles.text]}>{productName}</Text>
-                    <Text style={{ fontSize: 13, color: colors.darkGray }}>{size}</Text>
+                    <Text style={{ fontSize: 13, color: colors.darkGray }}>{sizeId[sizeId.length]}</Text>
                     {noted !== "" &&
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Icon name='edit-note' color={colors.primary} size={20} />
@@ -19,7 +19,7 @@ const ItemProductCart = ({ item }) => {
                         </View>}
                 </View>
             </View>
-            <Text style={styles.text}>{formatCurrency(totalPrice)}</Text>
+            <Text style={styles.text}>{formatCurrency(price)}</Text>
         </View>
     )
 }

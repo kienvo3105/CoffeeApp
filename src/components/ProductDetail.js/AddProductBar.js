@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { colors } from '../../constants/color'
 import { formatCurrency } from '../../helpers/helper'
-const AddProductBar = ({ price }) => {
+const AddProductBar = ({ price, handleAddProduct }) => {
     const [numberProduct, setNumberProduct] = useState(1)
 
 
@@ -32,9 +32,10 @@ const AddProductBar = ({ price }) => {
                     onPress={() => handleChangeProduct("plus")}
                 />
             </View>
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <TouchableOpacity style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+                onPress={() => handleAddProduct(numberProduct)}>
                 <Text style={styles.price}>Thêm {formatCurrency(price * numberProduct)}</Text>
-            </View>
+            </TouchableOpacity>
         </View >
     )
 }

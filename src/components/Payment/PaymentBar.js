@@ -5,7 +5,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import { colors } from '../../constants/color'
 import jestConfig from '../../../jest.config'
 
-const PaymentBar = ({ navigation, totalPrice }) => {
+const PaymentBar = ({ navigation, totalPrice, handlePressPayment }) => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -19,7 +19,8 @@ const PaymentBar = ({ navigation, totalPrice }) => {
                     <Text style={styles.text}>Khuyến mãi</Text>
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.viewOrder}>
+            <TouchableOpacity style={styles.viewOrder}
+                onPress={() => handlePressPayment(totalPrice)}>
                 <Text style={styles.order}>ĐẶT HÀNG ({totalPrice})</Text>
             </TouchableOpacity>
         </View>

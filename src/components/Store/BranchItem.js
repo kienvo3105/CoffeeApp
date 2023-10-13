@@ -15,7 +15,7 @@ const BranchItem = ({ item }) => {
     const navigation = useNavigation();
     const handleSelectBranch = () => {
         dispatch(branchSlice.actions.selectBranch(item));
-        navigation.navigate("Oder");
+        navigation.navigate("Order");
     }
 
     return (

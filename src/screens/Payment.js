@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 'react-native'
-import React, { useState } from 'react'
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native'
+import React, { useEffect, useState } from 'react'
 
 import { colors } from '../constants/color'
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -10,12 +10,53 @@ import PaymentBar from '../components/Payment/PaymentBar'
 
 import { Icon } from '@rneui/themed';
 
-import { listProductCart } from '../assets/data/data'
 import { formatCurrency } from '../helpers/helper'
 
+import { useSelector, useDispatch } from 'react-redux'
+import cartSlice from '../redux/cartSlice'
+import { itemsCartSelector, branchSelectedSelector, numberCartSelector, userSelector } from '../redux/selectors'
+
+import { usePost } from '../api'
+
+
 const Payment = ({ navigation }) => {
+    const dispatch = useDispatch();
+    const { isError, isLoading, fetchPost, result } = usePost();
+    const user = useSelector(userSelector);
+    const listProductCart = useSelector(itemsCartSelector);
+    const branchSelected = useSelector(branchSelectedSelector);
+    const totalItemCart = useSelector(numberCartSelector)
     const [selectedMethod, setSelectedMethod] = useState("Mang Về");
     const [note, setNote] = useState("");
+    const price = listProductCart.reduce((sum, itemCurrent) => sum + itemCurrent.price, 0);
+
+    const handlePressPayment = async (finalPrice) => {
+        const formatItems = listProductCart.map(item => {
+            const { id, productName, ...newItem } = item
+            return newItem
+        })
+        const order = {
+            branchId: branchSelected.id,
+            price: price,
+            discount: 0,
+            quantity: totalItemCart,
+            finalPrice,
+            noted: note,
+            deliveryMethod: selectedMethod === "Mang Về" ? "mv" : (selectedMethod === "Tại Bàn" ? "tc" : "vc"),
+            products: formatItems
+        }
+        await fetchPost(`order/user/${user.id}`, order);
+
+    }
+
+    useEffect(() => {
+        if (result && !isError) {
+            dispatch(cartSlice.actions.clearCart());
+            alert('Đặt hàng thành công!');
+            navigation.navigate('Home');
+        }
+    }, [result])
+
     return (
         <View style={{ flex: 1 }}>
             {/* back bar */}
@@ -88,13 +129,13 @@ const Payment = ({ navigation }) => {
                     {/* list product item */}
                     {listProductCart.map((item, index) => {
                         return (
-                            <>
-                                <ItemProductCart item={item} key={item.id} />
+                            <View key={item.id}>
+                                <ItemProductCart item={item} />
                                 {index < listProductCart.length - 1 &&
                                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                                         <View style={[styles.line, { width: '90%' }]} />
                                     </View>}
-                            </>
+                            </View>
 
                         )
                     })}
@@ -105,7 +146,7 @@ const Payment = ({ navigation }) => {
                     {/* total price */}
                     <View style={styles.row}>
                         <Text style={styles.title}>Tạm tính</Text>
-                        <Text style={styles.title}>{formatCurrency(listProductCart.reduce((sum, itemCurrent) => sum + itemCurrent.totalPrice, 0))}</Text>
+                        <Text style={styles.title}>{formatCurrency(price)}</Text>
                     </View>
 
                     <View style={styles.line} />
@@ -122,12 +163,12 @@ const Payment = ({ navigation }) => {
                 {/* final price */}
                 <View style={[styles.frame, styles.row, { marginBottom: 10 }]}>
                     <Text style={[styles.title, { fontSize: 18 }]}>Tổng cộng</Text>
-                    <Text style={[styles.title, { fontSize: 18 }]}>{formatCurrency(listProductCart.reduce((sum, itemCurrent) => sum + itemCurrent.totalPrice, 0))}</Text>
+                    <Text style={[styles.title, { fontSize: 18 }]}>{formatCurrency(price)}</Text>
                 </View>
             </ScrollView>
 
             {/* Payment bar */}
-            <PaymentBar navigation={navigation} totalPrice={formatCurrency(listProductCart.reduce((sum, itemCurrent) => sum + itemCurrent.totalPrice, 0))} />
+            <PaymentBar navigation={navigation} totalPrice={formatCurrency(price)} handlePressPayment={handlePressPayment} />
         </View >
     )
 }
