@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Dimensions, Alert } from 'react-native'
+import React, { useEffect, useState, useRef } from 'react'
 
 import { colors } from '../constants/color'
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -18,6 +18,11 @@ import { itemsCartSelector, branchSelectedSelector, numberCartSelector, userSele
 
 import { usePost } from '../api'
 
+import { SwipeRow } from 'react-native-swipe-list-view';
+
+
+const windowWidth = Dimensions.get('window').width;
+
 
 const Payment = ({ navigation }) => {
     const dispatch = useDispatch();
@@ -29,6 +34,8 @@ const Payment = ({ navigation }) => {
     const [selectedMethod, setSelectedMethod] = useState("Mang Về");
     const [note, setNote] = useState("");
     const price = listProductCart.reduce((sum, itemCurrent) => sum + itemCurrent.price, 0);
+
+    const swipeRowRefs = useRef([]);
 
     const handlePressPayment = async (finalPrice) => {
         const formatItems = listProductCart.map(item => {
@@ -49,6 +56,37 @@ const Payment = ({ navigation }) => {
 
     }
 
+    // Function to delete an item from the list 
+    const deleteItem = (rowKey, rowIndex) => {
+        Alert.alert(
+            'Xác nhận xóa',
+            'Bạn có chắc muốn xóa?',
+            [
+                {
+                    text: 'Hủy',
+                    onPress: () => {
+                        // Thực hiện hàm hủy ở đây
+                        swipeRowRefs.current[rowIndex].closeRow();
+                    },
+                    style: 'cancel',
+                },
+                {
+                    text: 'OK',
+                    onPress: () => {
+                        // Thực hiện hàm xóa ở đây
+                        dispatch(cartSlice.actions.deleteItem(rowKey))
+                    },
+                },
+            ]
+        );
+
+    };
+
+    const handleClearCart = () => {
+        dispatch(cartSlice.actions.clearCart())
+        navigation.navigate("Order");
+    }
+
     useEffect(() => {
         if (result && !isError) {
             dispatch(cartSlice.actions.clearCart());
@@ -63,7 +101,7 @@ const Payment = ({ navigation }) => {
             <View style={styles.backBar}>
                 <Ionicons name='chevron-back' size={20} color={colors.textPrimary} onPress={() => navigation.goBack()} style={{ flex: 1 }} />
                 <Text style={{ flex: 3, fontSize: 18, color: colors.textPrimary, fontWeight: 'bold', textAlign: 'center' }}>Giỏ hàng</Text>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={handleClearCart}>
                     <Text style={{ color: 'red', fontSize: 14, fontWeight: 'bold' }}>Xóa Giỏ Hàng</Text>
                 </TouchableOpacity>
             </View >
@@ -85,11 +123,11 @@ const Payment = ({ navigation }) => {
                     {/* address */}
                     <TouchableOpacity >
                         <View style={styles.row}>
-                            <Text style={styles.content}>Citi Ground</Text>
-                            <Text style={styles.content}>028 7101 5666</Text>
+                            <Text style={styles.content}>{branchSelected.name}</Text>
+                            <Text style={styles.content}>{branchSelected.Manager.phoneNumber}</Text>
                         </View>
                         <View style={styles.row}>
-                            <Text style={styles.contentExtra}>{`60A Trường Sơn\nP.2, Q. Tan Binh`}</Text>
+                            <Text style={styles.contentExtra}>{`${branchSelected?.Address.houseNumber} ${branchSelected?.Address.street}\n${branchSelected?.Address.commune}, ${branchSelected?.Address.district}`}</Text>
                             <Ionicons name='chevron-forward' size={15} color={colors.textPrimary} />
                         </View>
                     </TouchableOpacity>
@@ -127,7 +165,7 @@ const Payment = ({ navigation }) => {
                     <View style={styles.line} />
 
                     {/* list product item */}
-                    {listProductCart.map((item, index) => {
+                    {/* {listProductCart.map((item, index) => {
                         return (
                             <View key={item.id}>
                                 <ItemProductCart item={item} />
@@ -137,6 +175,36 @@ const Payment = ({ navigation }) => {
                                     </View>}
                             </View>
 
+                        )
+                    })} */}
+                    {/* SwipeListView */}
+                    {listProductCart.map((item, index) => {
+                        return (
+                            <View key={item.id}>
+                                <SwipeRow
+                                    ref={(ref) => (swipeRowRefs.current[index] = ref)} // Gán tham chiếu cho mỗi SwipeRow
+                                    // leftOpenValue={75}
+                                    rightOpenValue={- windowWidth + 50}
+                                    disableRightSwipe
+                                    onRowOpen={() => deleteItem({ id: item.id, quantity: item.quantity }, index)}
+                                >
+                                    <View style={styles.hiddenContainer}>
+                                        <TouchableOpacity
+                                            style={[styles.hiddenButton, styles.deleteButton]}
+                                            onPress={() => deleteItem(item.id)}
+                                        >
+                                            <Text style={styles.buttonText}>Delete</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={{ backgroundColor: 'white' }}>
+                                        <ItemProductCart item={item} />
+                                    </View>
+                                </SwipeRow>
+                                {index < listProductCart.length - 1 &&
+                                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                        <View style={[styles.line, { width: '90%' }]} />
+                                    </View>}
+                            </View>
                         )
                     })}
                 </View>
@@ -213,5 +281,29 @@ const styles = StyleSheet.create({
         borderColor: colors.gray,
         marginVertical: 10
     },
-
+    hiddenContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'stretch',
+        backgroundColor: '#E74C3C',
+        paddingRight: 20
+        // height: 80,
+        // borderRadius: 20,
+    },
+    hiddenButton: {
+        justifyContent: 'center',
+        // alignItems: 'center',
+        // width: 50,
+        // height: 50,
+    },
+    deleteButton: {
+        backgroundColor: '#E74C3C', // Red 
+        // borderRadius: 20,
+    },
+    buttonText: {
+        color: '#FFF',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
 })
