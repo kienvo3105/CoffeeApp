@@ -1,37 +1,29 @@
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { StyleSheet, Text, View, Image, Pressable } from 'react-native'
 import React from 'react'
 import { colors } from '../../constants/color';
 
-const convertDate = (inputDate) => {
-    const options = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        hour12: false, // 24-hour format
-    };
-    const formatter = new Intl.DateTimeFormat('vi-VN', options);
-    return formatter.format(inputDate);
-}
+import { convertDate, formatCurrency } from '../../helpers/helper';
+import { useNavigation } from '@react-navigation/native';
 
 const OrderItem = ({ item }) => {
+    const navigation = useNavigation();
     return (
-        <View style={styles.container}>
-            <Image source={item.branch.image} resizeMode='center' style={styles.image} />
+        <Pressable style={styles.container}
+            onPress={() => navigation.navigate('OrderDetail', { item })}>
+            <Image source={{ uri: item.Branch?.image }} resizeMode='cover' style={styles.image} />
             <View style={styles.bill}>
                 <View style={{ justifyContent: 'space-between' }}>
-                    <Text style={styles.branch}>{item.branch.name}</Text>
-                    <Text style={styles.text}>{item.numberProduct} Products</Text>
-                    <Text style={styles.text}>{convertDate(item.orderDate)}</Text>
+                    <Text style={styles.branch}>{item.Branch?.name}</Text>
+                    <Text style={styles.text}>{item.quantity} Products</Text>
+                    <Text style={styles.text}>{convertDate(Date.parse(item.orderDate))}</Text>
 
                 </View>
                 <View style={{ justifyContent: 'space-around', }}>
-                    <Text style={styles.price}>{item.totalPrice}</Text>
-                    <Text style={[styles.status, { backgroundColor: item.status === 'Pending' ? colors.primary : colors.green }]}>{item.status}</Text>
+                    <Text style={styles.price}>{formatCurrency(item.finalPrice)}</Text>
+                    <Text style={[styles.status, { backgroundColor: item.OrderStatus?.id === 't1' ? colors.primary : colors.green }]}>{item.OrderStatus?.name}</Text>
                 </View>
             </View>
-        </View>
+        </Pressable>
     )
 }
 

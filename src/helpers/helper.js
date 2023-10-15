@@ -1,3 +1,7 @@
+import * as Keychain from 'react-native-keychain';
+import jwt_decode from "jwt-decode";
+
+
 // Hàm chuyển số thành chuỗi định dạng "xxx.xxxđ"
 export const formatCurrency = (value) => {
     // Kiểm tra xem value có phải là số không
@@ -9,8 +13,7 @@ export const formatCurrency = (value) => {
     return value.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
 };
 
-import * as Keychain from 'react-native-keychain';
-import jwt_decode from "jwt-decode";
+
 export const checkToken = async () => {
     const credentials = await Keychain.getGenericPassword();
     let decoded = jwt_decode(credentials.password);
@@ -18,4 +21,17 @@ export const checkToken = async () => {
     if (!decoded || decoded.exp * 1000 - currentDate < 0)
         return false;
     return decoded.Info.id;
+}
+
+export const convertDate = (inputDate) => {
+    const options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: false, // 24-hour format
+    };
+    const formatter = new Intl.DateTimeFormat('vi-VN', options);
+    return formatter.format(inputDate);
 }

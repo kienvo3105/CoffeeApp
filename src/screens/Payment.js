@@ -47,7 +47,7 @@ const Payment = ({ navigation }) => {
             price: price,
             discount: 0,
             quantity: totalItemCart,
-            finalPrice,
+            finalPrice: price,
             noted: note,
             deliveryMethod: selectedMethod === "Mang Về" ? "mv" : (selectedMethod === "Tại Bàn" ? "tc" : "vc"),
             products: formatItems
