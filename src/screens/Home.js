@@ -1,5 +1,5 @@
 import { StyleSheet, ScrollView, View, FlatList, Text, Alert, Image } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import TopBar from '../components/Common/TopBar'
 import RatingCard from '../components/Home/RatingCard'
 import ItemCategory from '../components/Home/ItemCategory'
@@ -14,43 +14,62 @@ import { useGet } from '../api'
 import { categoriesSelector } from '../redux/selectors'
 import { colors } from '../constants/color'
 
-import { itemBestSeller, itemCategory, itemPromotion } from '../assets/data/data'
-
-const renderItemCategory = ({ item }) => {
-    return (<ItemCategory url={item.image} name={item.name} category={item.id} />)
-}
-
-const renderItemPromotion = ({ item }) => {
-    return (<Promotion url={item.img} title={item.title} date={item.date} handlePressItem={() => console.log("press promotion")} />)
-}
-
-const renderItemProduct = ({ item }) => {
-    return (<BestProduct url={item.img} title={item.title} price={item.price} handlePressItem={() => console.log("press product")} />)
-}
+import { itemPromotion } from '../assets/data/data'
 
 
-const Home = () => {
-    const { fetchGet, isError, isLoading, result } = useGet();
+
+
+const Home = ({ navigation }) => {
+    const { fetchGet: fetchGetCategory, isError: isErrorCategory, result: resultCategory } = useGet();
+    const { fetchGet: fetchGetBestSeller, isError: isErrorBestSeller, result: resultBestSeller } = useGet();
     const dispatch = useDispatch();
     const categories = useSelector(categoriesSelector);
+    const [itemBestSeller, setItemBestSeller] = useState([]);
 
+    const renderItemCategory = ({ item }) => {
+        return (<ItemCategory url={item.image} name={item.name} category={item.id} />)
+    }
+
+    const renderItemPromotion = ({ item }) => {
+        return (<Promotion url={item.img} title={item.title} date={item.date} handlePressItem={() => console.log("press promotion")} />)
+    }
+
+    const renderItemProduct = ({ item }) => {
+        return (<BestProduct url={item.image} title={item.name} price={item.price} handlePressItem={() => navigation.navigate("ProductDetail", { ...item })} />)
+    }
     useEffect(() => {
         const fetchData = async () => {
-            await fetchGet("category");
+            try {
+                await Promise.all([
+                    fetchGetCategory("category"),
+                    fetchGetBestSeller("product/best-seller"),
+                ]);
+            } catch (error) {
+                console.error("Lỗi:", error);
+            }
         }
         fetchData();
     }, [])
 
     useEffect(() => {
-
-        if (result) {
-            if (isError)
+        if (resultCategory) {
+            if (isErrorCategory)
                 Alert.alert("Lỗi lấy dữ liệu!", "Vui lòng thử lại!");
             else {
-                dispatch(categorySlice.actions.addCategory(result.allCategory));
+                dispatch(categorySlice.actions.addCategory(resultCategory.allCategory));
             }
         }
-    }, [result])
+    }, [resultCategory])
+
+    useEffect(() => {
+        if (resultBestSeller) {
+            if (isErrorBestSeller)
+                Alert.alert("Lỗi lấy dữ liệu!", "Vui lòng thử lại!");
+            else {
+                setItemBestSeller(resultBestSeller.products);
+            }
+        }
+    }, [resultBestSeller])
 
     return (
         <View style={styles.container}>

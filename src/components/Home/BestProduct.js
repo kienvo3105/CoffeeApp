@@ -4,8 +4,8 @@ import { colors } from '../../constants/color'
 import { formatCurrency } from '../../helpers/helper'
 const BestProduct = ({ title, url, price, handlePressItem }) => {
     return (
-        <Pressable style={styles.container}>
-            <Image source={url} style={styles.image} resizeMode='contain' />
+        <Pressable style={styles.container} onPress={handlePressItem}>
+            <Image source={{ uri: url }} style={styles.image} resizeMode='contain' />
             <Text style={styles.title}>{title}</Text>
             <View style={styles.borderPrice}>
                 <Text style={styles.price}>{formatCurrency(price)}</Text>

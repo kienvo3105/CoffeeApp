@@ -93,7 +93,7 @@ const OrderDetail = ({ route, navigation }) => {
                     {/* list product item */}
                     {orderDetail?.map((item, index) => {
                         return (
-                            <View key={item.id}>
+                            <View key={item.Product.id + item.Size.id + item.Product.quantity}>
                                 <ProductOrderItem item={item} />
                                 {index < orderDetail?.length - 1 &&
                                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>

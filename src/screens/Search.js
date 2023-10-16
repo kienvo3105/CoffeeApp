@@ -42,7 +42,7 @@ const Search = ({ navigation }) => {
                 />
                 <View />
             </View>
-            <ProductList check={"screen"} listProduct={listProductSearch} />
+            {/* <ProductList check={"screen"} listProduct={listProductSearch} /> */}
         </View>
     )
 }
