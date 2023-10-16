@@ -12,9 +12,18 @@ import { numberCartSelector } from '../../../redux/selectors'
 const Cart = () => {
     const [visibleModal, setVisibleModal] = useState(false);
     const numberCart = useSelector(numberCartSelector);
+
+    const handlePressCart = () => {
+        if (numberCart > 0) {
+            setVisibleModal(true);
+        } else {
+            alert('Giỏ hàng trống');
+        }
+    }
+
     return (
         <Pressable style={styles.container}
-            onPress={() => setVisibleModal(true)}>
+            onPress={handlePressCart}>
             <Ionicons name='bag' size={30} color={colors.white} style={{ padding: 5 }} />
             <Text style={styles.numberProduct}>{numberCart}</Text>
             {
