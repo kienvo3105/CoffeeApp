@@ -1,30 +1,32 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react';
+import { StyleSheet, Text, View, ActivityIndicator } from 'react-native'
+import React, { useEffect, useState } from 'react';
 import { SearchBar } from '@rneui/themed';
 import { colors } from '../constants/color';
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import ProductList from '../components/Order/ProductList';
+import SearchList from '../components/Search/SearchList';
 
-import { itemProduct } from '../assets/data/data';
+
+import { useGet } from '../api';
 
 const Search = ({ navigation }) => {
+    const { isError, result, isLoading, fetchGet } = useGet();
     const [search, setSearch] = useState("");
     const [listProductSearch, setListProductSearch] = useState([]);
-    const searchFunction = (text) => {
+
+    const searchFunction = async (text) => {
+        setSearch(text);
         if (text.length > 0) {
-            setSearch(text);
-            const data = Object.values(itemProduct);
-            const product = [].concat(...data);
-            console.log("🚀 ~ file: Search.js:17 ~ searchFunction ~ product:", product)
-            const result = product.filter((item) => item.title.toLowerCase().search(text.toLowerCase()) !== -1)
-            console.log("🚀 ~ file: Search.js:20 ~ searchFunction ~ result:", result.length)
-            setListProductSearch(result)
+            await fetchGet(`product/search?keyword=${text}`);
         } else {
             setListProductSearch([])
-            setSearch("")
         }
-
     }
+
+    useEffect(() => {
+        if (result && !isError) {
+            setListProductSearch(result.products);
+        }
+    }, [result])
 
     return (
         <View style={styles.container}>
@@ -42,7 +44,17 @@ const Search = ({ navigation }) => {
                 />
                 <View />
             </View>
-            {/* <ProductList check={"screen"} listProduct={listProductSearch} /> */}
+            {
+                isLoading ?
+                    <ActivityIndicator size={'large'} color={colors.primary} />
+                    :
+                    (
+                        listProductSearch.length === 0 ?
+                            <Text style={{ fontSize: 15, color: colors.darkGray, textAlign: "center", marginTop: 15 }}>Không tìm thấy sản phẩm phù hợp</Text>
+                            :
+                            <SearchList listProduct={listProductSearch} />
+                    )
+            }
         </View>
     )
 }
