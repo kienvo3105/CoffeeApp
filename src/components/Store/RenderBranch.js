@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable, FlatList } from 'react-native'
+import { StyleSheet, Text, View, Pressable, FlatList, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 
 import { SearchBar } from '@rneui/themed';
@@ -9,22 +9,37 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import { useGet } from '../../api';
 
 const RenderBranch = () => {
+    const { fetchGet: fetchSearch, result: resultSearch, isError: isErrorSearch, isLoading: isLoadingSearch } = useGet();
     const { fetchGet, result, isError } = useGet();
     const [search, setSearch] = useState("");
     const [viewMode, setViewMode] = useState("list");
     const [branchList, setBranchList] = useState([]);
+    const [branchSearch, setBranchSearch] = useState([]);
+
+    const handleTextSearchChange = async (textSearch) => {
+        setSearch(textSearch);
+        if (textSearch.length > 0)
+            await fetchSearch(`branch/search?keyword=${textSearch}`);
+    }
+
+
     useEffect(() => {
         const fetchBranch = async () => {
             await fetchGet("branch");
         }
         fetchBranch();
-    }, [])
+    }, []);
 
     useEffect(() => {
         if (result && !isError) {
             setBranchList(result.allBranch);
         }
-    }, [result])
+    }, [result]);
+
+    useEffect(() => {
+        if (resultSearch && !isErrorSearch)
+            setBranchSearch(resultSearch.branches)
+    }, [resultSearch])
 
     return (
         <View style={{ flex: 1 }}>
@@ -35,7 +50,7 @@ const RenderBranch = () => {
                     platform='android'
                     placeholder="Tìm địa chỉ"
                     placeholderTextColor={colors.gray}
-                    onChangeText={(search) => setSearch(search)}
+                    onChangeText={handleTextSearchChange}
                     value={search}
                     inputStyle={{ fontSize: 16, color: colors.textPrimary }}
                 />
@@ -48,15 +63,25 @@ const RenderBranch = () => {
                 </Pressable>
             </View>
             {/* list branch */}
-            {viewMode === "list" ?
-                <FlatList
-                    data={branchList}
-                    keyExtractor={item => item.id.toString()}
-                    renderItem={({ item }) => <BranchItem item={item} />}
-                    ItemSeparatorComponent={() => <View style={{ marginBottom: 5 }} />}
-                /> :
-                <Map branchList={branchList} />
+            {search !== "" && !isLoadingSearch && branchSearch.length === 0 &&
+                <Text style={{ fontSize: 15, color: colors.darkGray, textAlign: "center", marginTop: 15 }}>Không tìm thấy của hàng bạn cần!</Text>}
+            {
+                isLoadingSearch
+                    ?
+                    <ActivityIndicator size={'large'} color={colors.primary} />
+                    :
+                    (
+                        viewMode === "list" ?
+                            <FlatList
+                                data={search === "" ? branchList : branchSearch}
+                                keyExtractor={item => item.id.toString()}
+                                renderItem={({ item }) => <BranchItem item={item} />}
+                                ItemSeparatorComponent={() => <View style={{ marginBottom: 5 }} />}
+                            /> :
+                            <Map branchList={search === "" ? branchList : branchSearch} />
+                    )
             }
+
         </View>
     )
 }
