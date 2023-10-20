@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import CloseBar from '../components/Common/CloseBar'
 import ProductList from '../components/Order/ProductList'
 import BarCart from '../components/Order/BarCart'
-
+import { colors } from '../constants/color'
 import { useGet } from '../api';
 
 const ListProductScreen = ({ route, navigation }) => {
@@ -41,5 +41,6 @@ export default ListProductScreen
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: colors.white
     }
 })

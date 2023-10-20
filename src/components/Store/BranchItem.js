@@ -1,22 +1,30 @@
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import Feather from 'react-native-vector-icons/Feather'
 import { colors } from '../../constants/color'
 
 import { useDispatch, useSelector } from 'react-redux';
-import { branchSelectedSelector } from '../../redux/selectors';
+import { branchSelectedSelector, userSelector } from '../../redux/selectors';
 import branchSlice from '../../redux/branchSlice';
 import { useNavigation } from '@react-navigation/native';
+import { usePatch } from '../../api';
 
 const BranchItem = ({ item }) => {
     const dispatch = useDispatch();
+    const { isError, result, fetchPatch } = usePatch();
+    const user = useSelector(userSelector);
     const branchSelected = useSelector(branchSelectedSelector);
     const navigation = useNavigation();
-    const handleSelectBranch = () => {
-        dispatch(branchSlice.actions.selectBranch(item));
-        navigation.navigate("Order");
+    const handleSelectBranch = async () => {
+        await fetchPatch(`user/${user.id}`, { branchSelected: item.id });
     }
+    useEffect(() => {
+        if (!isError && result) {
+            dispatch(branchSlice.actions.selectBranch(item));
+            navigation.navigate("Order");
+        }
+    }, [result])
 
     return (
         <Pressable style={styles.container} onPress={handleSelectBranch}>

@@ -13,13 +13,14 @@ import { useGet } from '../api';
 import { AuthContext } from '../context/AuthContext';
 import { useDispatch } from 'react-redux';
 import userSlice from '../redux/userSlice';
+import branchSlice from '../redux/branchSlice';
 import { checkToken } from '../helpers/helper';
 const Tab = createBottomTabNavigator();
 
-const BottomMenu = () => {
+const BottomMenu = ({ navigation }) => {
     const { result, isError, fetchGet } = useGet();
     const { signOut } = useContext(AuthContext);
-
+    const { fetchGet: fetchGetBrachSelected, isError: isErrorBrachSelected, result: resultBrachSelected } = useGet();
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -41,10 +42,26 @@ const BottomMenu = () => {
     }, [])
 
     useEffect(() => {
-        if (result && !isError) {
-            dispatch(userSlice.actions.userChange(result.user));
+        const checkError = async () => {
+            if (result && !isError) {
+                dispatch(userSlice.actions.userChange(result.user));
+                if (result.user.branchSelected) {
+                    await fetchGetBrachSelected(`branch/${result.user.branchSelected}`)
+                }
+                else {
+                    navigation.navigate("SelectStoreScreen");
+                }
+            }
+
         }
+        checkError();
     }, [result])
+
+
+    useEffect(() => {
+        if (resultBrachSelected && !isErrorBrachSelected)
+            dispatch(branchSlice.actions.selectBranch(resultBrachSelected.branch));
+    }, [resultBrachSelected])
 
     return (
         <Tab.Navigator
