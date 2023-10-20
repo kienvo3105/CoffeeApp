@@ -28,6 +28,19 @@ export const convertDate = (inputDate) => {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
+        // hour: 'numeric',
+        // minute: 'numeric',
+        // hour12: false, // 24-hour format
+    };
+    const formatter = new Intl.DateTimeFormat('vi-VN', options);
+    return formatter.format(inputDate);
+}
+
+export const convertFullDate = (inputDate) => {
+    const options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
         hour: 'numeric',
         minute: 'numeric',
         hour12: false, // 24-hour format
@@ -35,3 +48,4 @@ export const convertDate = (inputDate) => {
     const formatter = new Intl.DateTimeFormat('vi-VN', options);
     return formatter.format(inputDate);
 }
+

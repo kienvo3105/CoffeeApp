@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Image, Pressable } from 'react-native'
 import React from 'react'
 import { colors } from '../../constants/color';
 
-import { convertDate, formatCurrency } from '../../helpers/helper';
+import { convertFullDate, formatCurrency } from '../../helpers/helper';
 import { useNavigation } from '@react-navigation/native';
 
 const OrderItem = ({ item }) => {
@@ -15,7 +15,7 @@ const OrderItem = ({ item }) => {
                 <View style={{ justifyContent: 'space-between' }}>
                     <Text style={styles.branch}>{item.Branch?.name}</Text>
                     <Text style={styles.text}>{item.quantity} Products</Text>
-                    <Text style={styles.text}>{convertDate(Date.parse(item.orderDate))}</Text>
+                    <Text style={styles.text}>{convertFullDate(Date.parse(item.orderDate))}</Text>
 
                 </View>
                 <View style={{ justifyContent: 'space-around', }}>

@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'rea
 import React, { useState, useEffect } from 'react'
 import { colors } from '../../constants/color';
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import { convertDate } from '../../helpers/helper';
+import { convertFullDate } from '../../helpers/helper';
 import { useGet } from '../../api';
 import { Icon } from '@rneui/themed';
 import { formatCurrency } from '../../helpers/helper';
@@ -46,7 +46,7 @@ const OrderDetail = ({ route, navigation }) => {
                     color: colors.textPrimary,
                     fontWeight: 'bold',
                     textAlign: 'center'
-                }}>{convertDate(Date.parse(order.orderDate))}</Text>
+                }}>{convertFullDate(Date.parse(order.orderDate))}</Text>
             </View >
             <ScrollView>
 
