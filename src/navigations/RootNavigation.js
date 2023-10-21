@@ -19,6 +19,9 @@ import { colors } from '../constants/color';
 import { usePost } from '../api';
 import { AuthContext } from '../context/AuthContext';
 import * as Keychain from 'react-native-keychain';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { update } from '../api/notification';
+
 const Stack = createStackNavigator();
 
 const RootNavigation = () => {
@@ -113,6 +116,12 @@ const RootNavigation = () => {
                 if (result?.errorCode && result?.errorCode !== 0)
                     Alert.alert("Lỗi đăng nhập!!", "Tài khoản hoặc mật khẩu không đúng!")
                 if (result?.errorCode === 0) {
+                    const fcm = await AsyncStorage.getItem('FCMToken');
+                    await update({
+                        userId: result.userId,
+                        tokenId: fcm,
+                    });
+
                     userToken = result.token;
                     await Keychain.setGenericPassword('myToken', userToken);
                 }

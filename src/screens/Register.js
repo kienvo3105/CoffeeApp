@@ -6,6 +6,9 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { colors } from '../constants/color';
 import { usePost } from '../api/post';
 
+import { register } from '../api/notification';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const Register = ({ navigation }) => {
     const { fetchPost, isError, result } = usePost();
     const [email, setEmail] = useState("");
@@ -28,14 +31,22 @@ const Register = ({ navigation }) => {
     }
 
     useEffect(() => {
-        if (result) {
-            if (!isError) {
-                Alert.alert("Đăng kí thành công! Hãy đăng nhập!");
-                navigation.navigate("Login");
+        const checkResult = async () => {
+            if (result) {
+                if (!isError) {
+                    const fcm = await AsyncStorage.getItem('FCMToken');
+                    await register({
+                        tokenId: fcm,
+                        userId: result.userId,
+                    });
+                    Alert.alert("Đăng kí thành công! Hãy đăng nhập!");
+                    navigation.navigate("Login");
+                }
+                else if (result.errorCode === 2)
+                    Alert.alert("Email đã tồn tại!!")
             }
-            else if (result.errorCode === 2)
-                Alert.alert("Email đã tồn tại!!")
-        }
+        };
+        checkResult();
     }, [result])
 
     return (
