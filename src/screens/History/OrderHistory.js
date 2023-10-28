@@ -4,7 +4,7 @@ import OrderItem from '../../components/History/OrderItem'
 import { useGet } from '../../api'
 import { useSelector } from 'react-redux'
 import { userSelector } from '../../redux/selectors'
-
+import { useFocusEffect } from '@react-navigation/native';
 
 
 
@@ -26,9 +26,12 @@ const OrderHistory = () => {
         await fetchGet(`order/history/user/${user.id}`);
     }
 
-    useEffect(() => {
-        getOrder();
-    }, [])
+    useFocusEffect(
+        React.useCallback(() => {
+            getOrder();
+        }, [])
+    );
+
     useEffect(() => {
         if (result && !isError) {
             setOrders(result.orders);
