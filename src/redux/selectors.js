@@ -22,3 +22,4 @@ export const branchSelectedSelector = (state) => state.branch.categorySelected;
 
 export const numberCartSelector = (state) => state.cart.numberItem;
 export const itemsCartSelector = (state) => state.cart.items;
+export const discountCartSelector = (state) => state.cart.discount;

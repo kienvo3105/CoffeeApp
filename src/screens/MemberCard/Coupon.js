@@ -13,13 +13,6 @@ const Coupon = () => {
     const user = useSelector(userSelector);
     const [coupon, setCoupon] = useState([]);
 
-    useEffect(() => {
-        const getCoupon = async () => {
-            await fetchGet(`user/${user.id}/discount`);
-        }
-        getCoupon();
-    }, [])
-
     useFocusEffect(
         React.useCallback(() => {
             let isActive = true;

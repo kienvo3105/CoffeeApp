@@ -1,22 +1,22 @@
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Dimensions, Alert } from 'react-native'
 import React, { useEffect, useState, useRef } from 'react'
 
-import { colors } from '../constants/color'
+import { colors } from '../../constants/color'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
-import ItemMethodOrder from '../components/Payment/ItemMethodOrder'
-import ItemProductCart from '../components/Payment/ItemProductCart'
-import PaymentBar from '../components/Payment/PaymentBar'
+import ItemMethodOrder from '../../components/Payment/ItemMethodOrder'
+import ItemProductCart from '../../components/Payment/ItemProductCart'
+import PaymentBar from '../../components/Payment/PaymentBar'
 
 import { Icon } from '@rneui/themed';
 
-import { formatCurrency } from '../helpers/helper'
+import { formatCurrency } from '../../helpers/helper'
 
 import { useSelector, useDispatch } from 'react-redux'
-import cartSlice from '../redux/cartSlice'
-import { itemsCartSelector, branchSelectedSelector, numberCartSelector, userSelector } from '../redux/selectors'
+import cartSlice from '../../redux/cartSlice'
+import { itemsCartSelector, branchSelectedSelector, numberCartSelector, userSelector, discountCartSelector } from '../../redux/selectors'
 
-import { usePost } from '../api'
+import { usePost, usePatch } from '../../api'
 
 import { SwipeRow } from 'react-native-swipe-list-view';
 
@@ -26,34 +26,43 @@ const windowWidth = Dimensions.get('window').width;
 
 const Payment = ({ navigation }) => {
     const dispatch = useDispatch();
-    const { isError, isLoading, fetchPost, result } = usePost();
+    const { isError, fetchPost, result } = usePost();
+    const { isError: isErrorPatch, fetchPatch, result: resultPatch } = usePatch();
     const user = useSelector(userSelector);
     const listProductCart = useSelector(itemsCartSelector);
     const branchSelected = useSelector(branchSelectedSelector);
-    const totalItemCart = useSelector(numberCartSelector)
+    const totalItemCart = useSelector(numberCartSelector);
+    const discount = useSelector(discountCartSelector);
     const [selectedMethod, setSelectedMethod] = useState("Mang Về");
     const [note, setNote] = useState("");
     const price = listProductCart.reduce((sum, itemCurrent) => sum + itemCurrent.price, 0);
 
     const swipeRowRefs = useRef([]);
 
-    const handlePressPayment = async (finalPrice) => {
-        const formatItems = listProductCart.map(item => {
-            const { id, productName, ...newItem } = item
-            return newItem
-        })
-        const order = {
-            branchId: branchSelected.id,
-            price: price,
-            discount: 0,
-            quantity: totalItemCart,
-            finalPrice: price,
-            noted: note,
-            deliveryMethod: selectedMethod === "Mang Về" ? "mv" : (selectedMethod === "Tại Bàn" ? "tc" : "vc"),
-            products: formatItems
-        }
-        await fetchPost(`order/user/${user.id}`, order);
 
+    const handlePressPayment = async () => {
+        try {
+            const formatItems = listProductCart.map(item => {
+                const { id, productName, ...newItem } = item
+                return newItem
+            })
+            const finalPrice = discount?.discount ? price - discount.discount : price;
+            const sale = discount?.discount ? discount.discount : 0;
+            const order = {
+                branchId: branchSelected.id,
+                price: price,
+                discount: sale,
+                quantity: totalItemCart,
+                finalPrice: finalPrice,
+                noted: note,
+                deliveryMethod: selectedMethod === "Mang Về" ? "mv" : (selectedMethod === "Tại Bàn" ? "tc" : "vc"),
+                products: formatItems
+            }
+            await fetchPost(`order/user/${user.id}`, order);
+        } catch (e) {
+            console.log("🚀 ~ file: Payment.js:63 ~ handlePressPayment ~ e:", e)
+
+        }
     }
 
     // Function to delete an item from the list 
@@ -88,12 +97,30 @@ const Payment = ({ navigation }) => {
     }
 
     useEffect(() => {
-        if (result && !isError) {
+        const deleteDiscount = async () => {
+            if (result && !isError) {
+                if (discount?.discount) {
+                    await fetchPatch(`discount/${discount.userDiscountId}`)
+                }
+
+                else {
+                    dispatch(cartSlice.actions.clearCart());
+                    Alert.alert('Đặt hàng thành công!');
+                    navigation.navigate('Home');
+                }
+            }
+        }
+        deleteDiscount();
+    }, [result])
+
+    useEffect(() => {
+        if (resultPatch && !isErrorPatch) {
+            dispatch(cartSlice.actions.clearDiscount());
             dispatch(cartSlice.actions.clearCart());
-            alert('Đặt hàng thành công!');
+            Alert.alert('Đặt hàng thành công!');
             navigation.navigate('Home');
         }
-    }, [result])
+    }, [resultPatch])
 
     return (
         <View style={{ flex: 1 }}>
@@ -164,19 +191,6 @@ const Payment = ({ navigation }) => {
 
                     <View style={styles.line} />
 
-                    {/* list product item */}
-                    {/* {listProductCart.map((item, index) => {
-                        return (
-                            <View key={item.id}>
-                                <ItemProductCart item={item} />
-                                {index < listProductCart.length - 1 &&
-                                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                        <View style={[styles.line, { width: '90%' }]} />
-                                    </View>}
-                            </View>
-
-                        )
-                    })} */}
                     {/* SwipeListView */}
                     {listProductCart.map((item, index) => {
                         return (
@@ -222,8 +236,8 @@ const Payment = ({ navigation }) => {
                     {/* discount */}
                     <View style={styles.row}>
                         <Text style={[styles.title, { fontWeight: 'normal' }]}>Khuyến mãi</Text>
-                        <TouchableOpacity>
-                            <Text style={[styles.title, { color: colors.primary }]}>Thêm khuyến mãi</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate("Voucher")}>
+                            <Text style={[styles.title, { color: colors.primary }]}>{discount?.discount ? `-${formatCurrency(discount.discount)}` : 'Thêm khuyến mãi'}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -231,12 +245,12 @@ const Payment = ({ navigation }) => {
                 {/* final price */}
                 <View style={[styles.frame, styles.row, { marginBottom: 10 }]}>
                     <Text style={[styles.title, { fontSize: 18 }]}>Tổng cộng</Text>
-                    <Text style={[styles.title, { fontSize: 18 }]}>{formatCurrency(price)}</Text>
+                    <Text style={[styles.title, { fontSize: 18 }]}>{formatCurrency(discount?.discount ? price - discount.discount : price)}</Text>
                 </View>
             </ScrollView>
 
             {/* Payment bar */}
-            <PaymentBar navigation={navigation} totalPrice={formatCurrency(price)} handlePressPayment={handlePressPayment} />
+            <PaymentBar totalPrice={formatCurrency(discount?.discount ? price - discount.discount : price)} handlePressPayment={handlePressPayment} />
         </View >
     )
 }

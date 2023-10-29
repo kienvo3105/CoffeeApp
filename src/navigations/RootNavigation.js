@@ -7,13 +7,15 @@ import BottomMenu from './BottomMenu';
 import ListProductScreen from '../screens/ListProductScreen';
 import ProductDetail from '../screens/ProductDetail';
 import SelectStoreScreen from '../screens/Store/SelectStoreScreen';
-import Payment from '../screens/Payment';
+import Payment from '../screens/Payment/Payment';
 import Search from '../screens/Search';
 import Profile from '../screens/Setting/Profile';
 import MemberCardMenu from './MemberCardMenu';
 import Login from '../screens/Login';
 import Register from '../screens/Register';
 import OrderDetail from '../screens/History/OrderDetail';
+import Voucher from '../screens/Payment/Voucher';
+
 
 import { colors } from '../constants/color';
 import { usePost } from '../api';
@@ -170,6 +172,7 @@ const RootNavigation = () => {
                             <Stack.Screen name='Profile' component={Profile} />
                             <Stack.Screen name='MemberCardMenu' component={MemberCardMenu} />
                             <Stack.Screen name='OrderDetail' component={OrderDetail} />
+                            <Stack.Screen name='Voucher' component={Voucher} />
                         </>
                     )}
 
