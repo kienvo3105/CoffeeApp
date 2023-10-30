@@ -15,6 +15,9 @@ import { useDispatch } from 'react-redux';
 import userSlice from '../redux/userSlice';
 import branchSlice from '../redux/branchSlice';
 import { checkToken } from '../helpers/helper';
+
+import { eventEmitter } from '../../index'
+
 const Tab = createBottomTabNavigator();
 
 const BottomMenu = ({ navigation }) => {
@@ -39,6 +42,14 @@ const BottomMenu = ({ navigation }) => {
             }
         }
         fetchUser();
+    }, [])
+
+    useEffect(() => {
+        eventEmitter.on('notificationReceived', notification => {
+            if (notification) {
+                console.log(notification)
+            }
+        });
     }, [])
 
     useEffect(() => {

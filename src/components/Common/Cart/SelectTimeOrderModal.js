@@ -3,21 +3,29 @@ import React, { useState, useEffect } from 'react'
 import { colors } from '../../../constants/color'
 import { useNavigation } from '@react-navigation/native'
 import DatePicker from 'react-native-date-picker'
+
+import { useDispatch } from 'react-redux';
+import cartSlice from '../../../redux/cartSlice'
+
 const SelectTimeOrderModal = ({ visibleModal, handleCloseModal }) => {
     const navigation = useNavigation();
     const [date, setDate] = useState(new Date())
     const [currentDate, setCurrentDate] = useState(new Date())
+    const dispatch = useDispatch();
+
+    const handleChangeDate = () => {
+        dispatch(cartSlice.actions.changeTime(date.toString()));
+        handleCloseModal(false);
+        navigation.navigate("Payment")
+    }
+
 
     useEffect(() => {
         const minutes = new Date()
         minutes.setMinutes(minutes.getMinutes() + 15)
         setCurrentDate(minutes)
         setDate(minutes)
-        // minutes = new Date()
-        // minutes.setMinutes(minutes.getMinutes() + 25)
-
-        // console.log(minutes.getHours(), minutes.getMinutes())
-    }, [])
+    }, []);
 
     return (
         <Modal
@@ -50,7 +58,7 @@ const SelectTimeOrderModal = ({ visibleModal, handleCloseModal }) => {
                         // maximumDate={currentDate}
                         />
                         <Pressable style={styles.setTime}
-                            onPress={() => { handleCloseModal(false); navigation.navigate("Payment") }} >
+                            onPress={handleChangeDate} >
                             <Text style={{ fontSize: 17, color: colors.white, fontWeight: 'bold' }}>ĐẶT THỜI GIAN</Text>
                         </Pressable>
                     </View>

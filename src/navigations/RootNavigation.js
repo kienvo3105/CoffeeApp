@@ -7,18 +7,23 @@ import BottomMenu from './BottomMenu';
 import ListProductScreen from '../screens/ListProductScreen';
 import ProductDetail from '../screens/ProductDetail';
 import SelectStoreScreen from '../screens/Store/SelectStoreScreen';
-import Payment from '../screens/Payment';
+import Payment from '../screens/Payment/Payment';
 import Search from '../screens/Search';
 import Profile from '../screens/Setting/Profile';
 import MemberCardMenu from './MemberCardMenu';
 import Login from '../screens/Login';
 import Register from '../screens/Register';
 import OrderDetail from '../screens/History/OrderDetail';
+import Voucher from '../screens/Payment/Voucher';
+
 
 import { colors } from '../constants/color';
 import { usePost } from '../api';
 import { AuthContext } from '../context/AuthContext';
 import * as Keychain from 'react-native-keychain';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { update } from '../api/notification';
+
 const Stack = createStackNavigator();
 
 const RootNavigation = () => {
@@ -113,6 +118,12 @@ const RootNavigation = () => {
                 if (result?.errorCode && result?.errorCode !== 0)
                     Alert.alert("Lỗi đăng nhập!!", "Tài khoản hoặc mật khẩu không đúng!")
                 if (result?.errorCode === 0) {
+                    const fcm = await AsyncStorage.getItem('FCMToken');
+                    await update({
+                        userId: result.userId,
+                        tokenId: fcm,
+                    });
+
                     userToken = result.token;
                     await Keychain.setGenericPassword('myToken', userToken);
                 }
@@ -161,6 +172,7 @@ const RootNavigation = () => {
                             <Stack.Screen name='Profile' component={Profile} />
                             <Stack.Screen name='MemberCardMenu' component={MemberCardMenu} />
                             <Stack.Screen name='OrderDetail' component={OrderDetail} />
+                            <Stack.Screen name='Voucher' component={Voucher} />
                         </>
                     )}
 

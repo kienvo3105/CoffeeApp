@@ -5,7 +5,7 @@ import Coins from '../../components/MemberCardMenu/Coins';
 import { useGet } from '../../api';
 import { userSelector } from '../../redux/selectors';
 import { useSelector } from 'react-redux';
-
+import { useFocusEffect } from '@react-navigation/native';
 import CouponItem from '../../components/MemberCardMenu/CouponItem';
 
 const Coupon = () => {
@@ -13,12 +13,18 @@ const Coupon = () => {
     const user = useSelector(userSelector);
     const [coupon, setCoupon] = useState([]);
 
-    useEffect(() => {
-        const getCoupon = async () => {
-            await fetchGet(`user/${user.id}/discount`);
-        }
-        getCoupon();
-    }, [])
+    useFocusEffect(
+        React.useCallback(() => {
+            let isActive = true;
+            const getCoupon = async () => {
+                await fetchGet(`user/${user.id}/discount`);
+            }
+            getCoupon();
+            return () => {
+                isActive = false;
+            };
+        }, [])
+    );
 
     useEffect(() => {
         if (result && !isError)

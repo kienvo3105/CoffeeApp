@@ -4,7 +4,9 @@ export default createSlice({
     name: 'cart',
     initialState: {
         items: [],
-        numberItem: 0
+        numberItem: 0,
+        discount: {},
+        time: null
     },
     reducers: {
         addItem: (state, action) => {
@@ -19,6 +21,15 @@ export default createSlice({
         clearCart: (state, action) => {
             state.items = [];
             state.numberItem = 0
+        },
+        selectDiscount: (state, action) => {
+            state.discount = action.payload
+        },
+        clearDiscount: (state, action) => {
+            state.discount = {}
+        },
+        changeTime: (state, action) => {
+            state.time = action.payload
         }
     }
 });
