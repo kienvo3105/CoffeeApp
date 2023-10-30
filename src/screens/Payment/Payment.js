@@ -8,7 +8,7 @@ import ItemMethodOrder from '../../components/Payment/ItemMethodOrder'
 import ItemProductCart from '../../components/Payment/ItemProductCart'
 import PaymentBar from '../../components/Payment/PaymentBar'
 
-import { Icon } from '@rneui/themed';
+import { Icon, Overlay, Input, Button } from '@rneui/themed';
 
 import { formatCurrency } from '../../helpers/helper'
 
@@ -35,10 +35,14 @@ const Payment = ({ navigation }) => {
     const discount = useSelector(discountCartSelector);
     const [selectedMethod, setSelectedMethod] = useState("Mang Về");
     const [note, setNote] = useState("");
+    const [visible, setVisible] = useState(false);
     const price = listProductCart.reduce((sum, itemCurrent) => sum + itemCurrent.price, 0);
 
     const swipeRowRefs = useRef([]);
 
+    const toggleOverlay = () => {
+        setVisible(!visible);
+    };
 
     const handlePressPayment = async () => {
         try {
@@ -173,10 +177,41 @@ const Payment = ({ navigation }) => {
                     <View style={styles.line} />
 
                     {/* note */}
-                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={toggleOverlay}>
                         <Icon name='edit-note' color={colors.primary} size={25} />
-                        <Text style={{ fontSize: 13, color: colors.darkGray }}>Ghi chú đơn hàng</Text>
+                        <Text style={{ fontSize: 13, color: colors.darkGray }}>{note !== "" ? note : "Ghi chú đơn hàng"}</Text>
                     </TouchableOpacity>
+
+                    < Overlay isVisible={visible}
+                        overlayStyle={{ width: '80%' }}
+                        onBackdropPress={toggleOverlay}>
+                        <Text style={styles.textPrimary}>Ghi chú đơn hàng!</Text>
+                        <Input
+                            style={{ fontSize: 15 }}
+                            multiline
+                            placeholder='Nhập ghi chú của bạn'
+                            leftIcon={
+                                <Icon
+                                    name='edit-note'
+                                    size={24}
+                                    color={colors.primary}
+                                />}
+                            value={note}
+                            onChangeText={setNote}
+                        />
+                        <Button
+                            title={'Hoàn thành'}
+                            containerStyle={{
+                                width: 200,
+                                marginHorizontal: 50,
+                                marginVertical: 10,
+                                borderRadius: 20
+                            }}
+                            onPress={toggleOverlay}
+                            color={colors.primary}
+
+                        />
+                    </Overlay>
                 </View>
 
                 {/* list product */}
@@ -319,5 +354,12 @@ const styles = StyleSheet.create({
         color: '#FFF',
         fontSize: 16,
         fontWeight: 'bold',
+    },
+    textPrimary: {
+        marginVertical: 20,
+        textAlign: 'center',
+        fontSize: 20,
+        color: colors.primary,
+        fontWeight: 'bold'
     },
 })
