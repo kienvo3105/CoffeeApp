@@ -4,7 +4,7 @@ import React from 'react'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { colors } from '../../constants/color'
 
-const PaymentBar = ({ totalPrice, handlePressPayment }) => {
+const PaymentBar = ({ totalPrice, handlePressPayment, navigation }) => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -13,7 +13,7 @@ const PaymentBar = ({ totalPrice, handlePressPayment }) => {
                     <Text style={styles.text}>MoMo</Text>
                 </TouchableOpacity>
                 <View style={{ borderLeftWidth: 1, marginRight: 10, borderColor: colors.gray }} />
-                <TouchableOpacity style={[styles.contentHeader]}>
+                <TouchableOpacity style={[styles.contentHeader]} onPress={() => navigation.navigate("Voucher")}>
                     <AntDesign name='tags' size={30} color={colors.primary} />
                     <Text style={styles.text}>Khuyến mãi</Text>
                 </TouchableOpacity>

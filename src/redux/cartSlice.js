@@ -5,7 +5,8 @@ export default createSlice({
     initialState: {
         items: [],
         numberItem: 0,
-        discount: {}
+        discount: {},
+        time: null
     },
     reducers: {
         addItem: (state, action) => {
@@ -26,6 +27,9 @@ export default createSlice({
         },
         clearDiscount: (state, action) => {
             state.discount = {}
+        },
+        changeTime: (state, action) => {
+            state.time = action.payload
         }
     }
 });

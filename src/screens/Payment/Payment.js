@@ -7,6 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import ItemMethodOrder from '../../components/Payment/ItemMethodOrder'
 import ItemProductCart from '../../components/Payment/ItemProductCart'
 import PaymentBar from '../../components/Payment/PaymentBar'
+import SelectTimeOrderModal from '../../components/Common/Cart/SelectTimeOrderModal'
 
 import { Icon, Overlay, Input, Button } from '@rneui/themed';
 
@@ -14,7 +15,7 @@ import { formatCurrency } from '../../helpers/helper'
 
 import { useSelector, useDispatch } from 'react-redux'
 import cartSlice from '../../redux/cartSlice'
-import { itemsCartSelector, branchSelectedSelector, numberCartSelector, userSelector, discountCartSelector } from '../../redux/selectors'
+import { itemsCartSelector, branchSelectedSelector, numberCartSelector, userSelector, discountCartSelector, timeCartSelector } from '../../redux/selectors'
 
 import { usePost, usePatch } from '../../api'
 
@@ -33,9 +34,11 @@ const Payment = ({ navigation }) => {
     const branchSelected = useSelector(branchSelectedSelector);
     const totalItemCart = useSelector(numberCartSelector);
     const discount = useSelector(discountCartSelector);
+    const time = new Date(useSelector(timeCartSelector));
     const [selectedMethod, setSelectedMethod] = useState("Mang Về");
     const [note, setNote] = useState("");
     const [visible, setVisible] = useState(false);
+    const [visibleTime, setVisibleTime] = useState(false);
     const price = listProductCart.reduce((sum, itemCurrent) => sum + itemCurrent.price, 0);
 
     const swipeRowRefs = useRef([]);
@@ -152,7 +155,7 @@ const Payment = ({ navigation }) => {
                     <View style={styles.line} />
 
                     {/* address */}
-                    <TouchableOpacity >
+                    <TouchableOpacity onPress={() => navigation.navigate("SelectStoreScreen")} >
                         <View style={styles.row}>
                             <Text style={styles.content}>{branchSelected.name}</Text>
                             <Text style={styles.content}>{branchSelected.Manager.phoneNumber}</Text>
@@ -166,14 +169,18 @@ const Payment = ({ navigation }) => {
                     <View style={styles.line} />
 
                     {/* Time order*/}
-                    <TouchableOpacity style={styles.row}>
+                    <TouchableOpacity style={styles.row} onPress={() => setVisibleTime(true)}>
                         <View style={styles.row}>
                             <Ionicons name='time-outline' size={17} color={colors.primary} style={{ marginRight: 5 }} />
-                            <Text style={styles.title}>Hôm nay - 11:48</Text>
+                            <Text style={styles.title}>Hôm nay - {time.getHours()}:{time.getMinutes()}</Text>
                         </View>
                         <Ionicons name='chevron-forward' size={15} color={colors.textPrimary} />
                     </TouchableOpacity>
 
+                    {
+                        visibleTime &&
+                        <SelectTimeOrderModal visibleModal={visibleTime} handleCloseModal={() => setVisibleTime(false)} />
+                    }
                     <View style={styles.line} />
 
                     {/* note */}
@@ -219,7 +226,7 @@ const Payment = ({ navigation }) => {
                     {/* title */}
                     <View style={styles.row}>
                         <Text style={styles.title}>Danh sách sản phẩm</Text>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => navigation.navigate("Order")}>
                             <Text style={[styles.title, { color: colors.primary }]}>Thêm sản phẩm</Text>
                         </TouchableOpacity>
                     </View>
@@ -285,7 +292,7 @@ const Payment = ({ navigation }) => {
             </ScrollView>
 
             {/* Payment bar */}
-            <PaymentBar totalPrice={formatCurrency(discount?.discount ? price - discount.discount : price)} handlePressPayment={handlePressPayment} />
+            <PaymentBar totalPrice={formatCurrency(discount?.discount ? price - discount.discount : price)} handlePressPayment={handlePressPayment} navigation={navigation} />
         </View >
     )
 }
